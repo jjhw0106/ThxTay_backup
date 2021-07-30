@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!-- 
+	com.sample.dao.UserDao 매퍼인터에시으세 대한 매퍼파일(SQL이 정의된 파일) 정의
+-->
+<mapper namespace="com.sample.dao.UserDao">
+
+    <select id="getUserById" parameterType="string" resultType="com.tt.User.UserVO">
+        SELECT
+            *
+        FROM
+            sample_users
+        WHERE
+            user_id = #{value}
+    </select>
+
+    <select id="getUserByEmail" parameterType="string" resultType="com.tt.User.UserVO">
+        SELECT
+            *
+        FROM
+            sample_users
+        WHERE
+            user_email = #{value}
+    </select>
+
+    <insert id="insertUser" parameterType="com.tt.User.UserVO">
+        INSERT INTO sample_users
+        (user_id, user_password, user_name, user_email, user_phone)
+        VALUES
+        (#{id}, #{password}, #{name}, #{email}, #{phone})
+    </insert>
+</mapper>
