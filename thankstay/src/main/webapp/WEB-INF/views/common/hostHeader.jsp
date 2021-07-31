@@ -38,7 +38,6 @@ a {
 
 
 .navbar_logo i,a {
-	
 	color: purple;
 	font-weight: bolder;
 }
@@ -61,12 +60,13 @@ a {
 .navbar_icons {
 	list-style: none;
 	color: white;
-	display: flex;
 	padding-left: 0px;
 }
 
 .navbar_icons li {
 	padding: 8px 12px;
+	margin-top:4px;
+	align-items: center;	
 }
 
 .navbar_toggleBtn {
@@ -76,7 +76,7 @@ a {
 	font-size: 24px;
 	color: fuchsia;
 }
-
+/* 미디어 쿼리  */
 @media screen and (max-width: 768px) {
 	.navbar {
 		flex-direction: column;
@@ -125,9 +125,9 @@ a {
 			<li><a href="">인사이트</a></li>
 			<li><a href="">메뉴</a></li>
 		</ul>
-		<ul class="navbar_icons">
-			<li><a href=""><i class="fas fa-user-alt"></i></a></li>
-		</ul>
+		<div class="navbar_icons">
+			<a href=""><i class="fas fa-user-alt"></i></a>
+		</div>
 		<a href="#" class="navbar_toggleBtn"> <i class="fas fa-bars"
 			style="display: block;"></i>
 		</a>
