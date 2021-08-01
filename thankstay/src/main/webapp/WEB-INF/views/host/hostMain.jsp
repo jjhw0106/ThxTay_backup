@@ -60,7 +60,7 @@ body {
 }
 /* 체크 */
 .reservationAlarmText p:nth-child(2) {padding-left 10%;
-	
+	padding-left: 10%;
 }
 
 .todayBox {
@@ -95,7 +95,7 @@ body {
 
 .todayNotice {
 	color: white;
-	padding-top: 20px;
+	padding-top: 200px;
 	padding-left: 10%;
 }
 </style>
@@ -111,8 +111,7 @@ body {
 						<p>투데이</p>
 						<span><button class="enrollButton">숙소 등록 완료하기</button></span>
 					</div>
-					<div class="todayNotice">숙소 등록 절차가 거의 완료되었습니다! 숙소 페이지에 누락된
-						세부정보 몇 가지를 입력해주세요.</div>
+					<div class="todayNotice">숙소 등록 절차가 거의 완료되었습니다! 숙소 페이지에 누락된 세부정보 몇 가지를 입력해주세요.</div>
 				</div>
 			</div>
 			<div class="reservationWrapperBox">
