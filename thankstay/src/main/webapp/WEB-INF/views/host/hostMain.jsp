@@ -95,7 +95,7 @@ body {
 
 .todayNotice {
 	color: white;
-	padding-top: 200px;
+	padding-top: 20px;
 	padding-left: 10%;
 }
 </style>
