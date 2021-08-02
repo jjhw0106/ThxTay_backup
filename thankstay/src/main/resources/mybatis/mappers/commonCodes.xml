@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tt.Common.CommonDao">
+	<select id="getCommonCodeByCodeContent" parameterType="string" resultType="string">
+		SELECT 
+			commoncode 		as commonCode
+		FROM	
+			thxtay_common_code
+		WHERE
+			codecontent = #{value}
+	</select>
+	<select id="getAllCommonCodeVos" resultType="com.tt.vo.CommonCodeVO">
+	SELECT 
+			commoncode 		as commonCode
+			,parentcode		as parentCode
+			,codecontent	as codeContent
+			,priority		as priority
+			,createddate	as createdDate
+			,updateddate	as updatedDate
+		FROM	
+			thxtay_common_code
+	</select>
+	
+	<select id="getCommonCodeVosByCmCode" parameterType = "string" resultType="com.tt.vo.CommonCodeVO">
+	SELECT 
+			commoncode 		as commonCode
+			,parentcode		as parentCode
+			,codecontent	as codeContent
+			,priority		as priority
+			,createddate	as createdDate
+			,updateddate	as updatedDate
+		FROM	
+			thxtay_common_code
+		WHERE
+			commonCode = #{value}
+	</select>
+	
+	<select id="getCommonCodeVosByParentCode" parameterType = "string" resultType="com.tt.vo.CommonCodeVO">
+		SELECT 
+			commoncode 		as commonCode
+			,parentcode		as parentCode
+			,codecontent	as codeContent
+			,priority		as priority
+			,createddate	as createdDate
+			,updateddate	as updatedDate
+		FROM	
+			thxtay_common_code
+		WHERE
+			parentCode = #{value}
+	</select>
+	
+</mapper>

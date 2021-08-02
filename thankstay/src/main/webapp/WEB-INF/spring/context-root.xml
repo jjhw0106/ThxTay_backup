@@ -42,13 +42,19 @@
 	<!-- 
 		commons-dbcp2 라이브러리를 이용한 커넥션풀을 스프링의 빈으로 등록시킨다.
 	 -->
-	<bean id="dataSource" 
+	 <!-- <bean id="dataSource" 
 		class="org.apache.commons.dbcp2.BasicDataSource"
 		p:driverClassName="oracle.jdbc.OracleDriver"
-		p:url="jdbc:oracle:thin:@thankstay_high?TNS_ADMIN=C://Wallet_ThanksTay"
+		p:url="jdbc:oracle:thin:@localhost:1521:xe"
+		p:username="hr"
+		p:password="zxcv1234"/> -->
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp2.BasicDataSource"
+		p:driverClassName="oracle.jdbc.OracleDriver"
+		p:url="jdbc:oracle:thin:@db202107231412_high?TNS_ADMIN=C://Wallet_DB202107231412"	
 		p:username="admin"
-		p:password="Gkehdrjs1234"/>
-		
+		p:password="Ghdnjs!2020106"/>
+		<!-- -->
 	<!-- 
 		선언적 트랜잭션 처리를 지원하는 트랜잭션 매니저를  스프링 컨테이너의 빈으로 등록한다.
 	 -->
