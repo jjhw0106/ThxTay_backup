@@ -11,80 +11,25 @@
 	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 	crossorigin="anonymous">
 <style>
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p,
-	blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn,
-	em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var,
-	b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend,
-	table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas,
-	details, embed, figure, figcaption, footer, header, hgroup, menu, nav,
-	output, ruby, section, summary, time, mark, audio, video {
-	margin: 0;
+
+/* 공통 CSS */
+.container-fluid {
 	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
 }
-/* CSS 설정값 지우기 */
-article, aside, details, figcaption, figure, footer, header, hgroup,
-	menu, nav, section {
-	display: block;
-}
+
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
 
 body {
-	line-height: 1;
+	margin: 0;
+	font-family: 'nanumgothic' !important;
+	font-family: 'Source Sans Pro';
 }
-
-ol, ul {
-	list-style: none;
-}
-
-blockquote, q {
-	quotes: none;
-}
-
-blockquote:before, blockquote:after, q:before, q:after {
-	content: '';
-	content: none;
-}
-
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-/* CSS 설정값 지우기 */
-article, aside, details, figcaption, figure, footer, header, hgroup,
-	menu, nav, section {
-	display: block;
-}
-
-body {
-	line-height: 1;
-}
-
-ol, ul {
-	list-style: none;
-}
-
-blockquote, q {
-	quotes: none;
-}
-
-blockquote:before, blockquote:after, q:before, q:after {
-	content: '';
-	content: none;
-}
-
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-/* CSS 설정값 지우기 */
+/* 공통 CSS */
 .lodgingEnrollment {
 	width: 100%;
 }
 
-.welcomeHost {
+.leftArea {
 	display: flex;
 	position: absolute;
 	width: 50%;
@@ -96,6 +41,7 @@ table {
 }
 
 .welcomeMessage {
+	font-size: 32px;
 	margin: 0 auto;
 	position: absolute;
 	top: 50%;
@@ -114,8 +60,8 @@ table {
 	width: 100% !important;
 	max-width: 464px !important;
 	margin-bottom: 12px !important;
-	margin-left: auto !important;
-	margin-right: auto !important;
+	margin-left: auto;
+	margin-right: auto;
 	animation-duration: 600ms !important;
 	animation-iteration-count: 1 !important;
 	animation-fill-mode: both !important;
@@ -138,53 +84,67 @@ table {
 	padding: 0px !important;
 	outline: none !important;
 }
-  .lodgingStatusWrapper{
-    position:absolute;
-    top:50%;
-    left:75%;
-    transform: translate(-50%,-50%);
-    padding-left: 50px;
-  }
-  .lodgingStatusWrapper p{
-    width:300px;
-  }
-  .lodgingStatusWrapper h2{
-    padding-bottom:20px;
-  }
+
+.lodgingStatusWrapper {
+	position: absolute;
+	top: 50%;
+	left: 70%;
+	transform: translate(-50%, -50%);
+	padding-left: 50px;
+}
+
+.lodgingStatusWrapper p {
+	width: 300px;
+}
+
+.lodgingStatusWrapper h2 {
+	padding-bottom: 20px;
+}
 </style>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+	crossorigin="anonymous"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <title>숙소 등록 상태</title>
 </head>
 <body>
-	<%@include file="../common/hostHeader.jsp" %>
-	<div class="lodgingEnrollment">
-		<div class="welcomeHost">
-			<div class="welcomeMessage">~님 환영합니다</div>
-		</div>
-		<div class="lodgingStatus" style="position: absloute; ">
-			<div class = "lodgingStatusWrapper">
+	<div class="container-fluid">
+		<%@include file="../common/hostHeader.jsp"%>
+		<div class="lodgingEnrollment">
+			<div class="leftArea">
+				<div class="welcomeMessage">~님 환영합니다</div>
+			</div>
+			<div class="lodgingStatus" style="position: absloute;">
+				<div class="lodgingStatusWrapper">
 					<h2 style="font-weight: bold">숙소 등록 완료하기</h2>
-						<div class="chooseStatus" style="padding-bottom:50px;">
+					<div class="chooseStatus" style="padding-bottom: 50px;">
+						<button class="chooseStatusBtn" type="button" role="radio"
+							aria-checked="false">
+							<p>숙소 등록일 : 2021-07-30</p>
+						</button>
+					</div>
+					<h2 style="font-weight: bold">숙소 등록 시작하기</h2>
+					<div class="chooseStatus">
+						<a href="/lodgingAdd">
 							<button class="chooseStatusBtn" type="button" role="radio"
-                                    aria-checked="false"><p>숙소 등록일 : 2021-07-30</p></button>
-						</div>
-				<h2 style="font-weight: bold">숙소 등록 시작하기</h2>
-				<div class="chooseStatus">
-					<button class="chooseStatusBtn" type="button" role="radio"
-                            aria-checked="false"><p>새로운 숙소 등록하기</p></button>
-				</div>
-				<div class="chooseStatus">
-					<button class="chooseStatusBtn" type="button" role="radio"
-                            aria-checked="false"><p>기존 숙소 수정하기</p></button>
+								aria-checked="false">
+								<p>새로운 숙소 등록하기</p>
+							</button>
+						</a>
+					</div>
+					<div class="chooseStatus">
+						<button class="chooseStatusBtn" type="button" role="radio"
+							aria-checked="false">
+							<p>기존 숙소 수정하기</p>
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
+		<div class="nextBox">1</div>
 	</div>
-	<div class="nextBox">1</div>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script>
 		
 	</script>

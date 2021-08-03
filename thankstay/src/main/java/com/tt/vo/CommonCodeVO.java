@@ -17,4 +17,6 @@ public class CommonCodeVO {
     private int priority;           // 우선순위
     private Date createdDate;       // 등록일시
     private Date updatedDate;       // 수정일시
+    
+    public CommonCodeVO() {}
 }

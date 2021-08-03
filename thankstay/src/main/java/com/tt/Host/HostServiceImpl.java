@@ -46,8 +46,7 @@ public class HostServiceImpl implements HostService {
 	 */
 	@Override
 	public List<CommonCodeVO> getCommonCodesByParentCode(String commonCode) {
-		List<CommonCodeVO> commonCodeVoList = commonDao.getCommonCodeVosByParentCode(commonCode);
-		return commonCodeVoList;
+		return commonDao.getCommonCodeVosByParentCode(commonCode);
 		/* return commonDao.getCommonCodeVosByParentCode(commonCode); */
 	}
 

@@ -3,6 +3,7 @@
 <style>
 /* CSS초기화 찾아보기 */
 
+
 /* hostHeader CSS */
 :root { -
 	-text-color: #f0f4f5; -
@@ -10,10 +11,7 @@
 	-accent-color: #d49466;
 }
 
-body {
-	margin: 0;
-	font-family: 'Source Sans Pro';
-}
+
 
 a {
 	margin:0 auto;
@@ -113,6 +111,8 @@ a {
 	}
 	/* hostHeader CSS */ 
 </style>
+<script src="https://kit.fontawesome.com/f421352664.js"
+	crossorigin="anonymous"></script>
 <header>
 	<nav class="navbar">
 		<div class="navbar_logo">

@@ -27,7 +27,6 @@ public interface CommonDao {
 	 * @param commonCode
 	 * @return
 	 */
-	List<CommonCodeVO> getCommonCodeVosByCmCode(String commonCode);
 	
 	List<CommonCodeVO> getCommonCodeVosByParentCode(String commonCode);
 	
