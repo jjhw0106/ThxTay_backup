@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tt.Common.CommonDao">
-	<select id="getCommonCodeByCodeContent" parameterType="string" resultType="string">
+	<!-- 
+	eviction: 캐시 알고리즘 속성, 기본: LRU 
+	flushInterval: 캐시 유지 시간 설정 (특정 시각을 정하지 못함)
+	size: 디폴트 값 1024, 메모리 ㅎ
+	-->
+	<cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true"/>
+	
+	<select id="getCommonCodeByCodeContent" useCache="true" parameterType="string" resultType="string">
 		SELECT 
 			commoncode 	
 		FROM	
@@ -38,5 +45,16 @@
 			parentcode=#{value}
 		</where> 
 	</select>
-	
+	<select id="getAllCommonCodes" useCache="true" resultType="string">
+		SELECT	
+			commoncode
+		FROM
+			thxtay_common_code
+	</select>
+	<select id="getAllParentCodes" useCache="true" resultType="string">
+		SELECT
+			parentcode
+		FROM
+			thxtay_common_code
+	</select>
 </mapper>

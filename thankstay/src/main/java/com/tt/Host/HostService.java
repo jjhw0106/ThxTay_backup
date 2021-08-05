@@ -1,8 +1,8 @@
 package com.tt.Host;
 
 import java.util.List;
-import java.util.Map;
 
+import com.tt.Lodging.LodgingVO;
 import com.tt.vo.CommonCodeVO;
 
 public interface HostService {
@@ -23,5 +23,8 @@ public interface HostService {
 	List<CommonCodeVO> getCommonCodesByParentCode(String commonCode);
 	
 	List<CommonCodeVO> getAllCommonCodes();
+	
+	List<LodgingVO> getLodgingsByLoginedUserNo(int userNo);
+	
 	/* jhw 추가 */
 }

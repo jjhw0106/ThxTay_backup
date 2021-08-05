@@ -18,15 +18,6 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public void registerUser(UserVO user) {
-		UserVO savedUser = userDao.getUserById(user.getId());
-		if (savedUser != null) {
-			throw new UserRegisterException("아이디 중복", "["+user.getId()+"]는 이미 사용중인 아이디입니다.");
-		}
-		savedUser = userDao.getUserByEmail(user.getEmail());
-		if (savedUser != null) {
-			throw new UserRegisterException("이메일 중복", "["+user.getEmail()+"]은 이미 사용중인 이메일입니다.");
-		}
-		
 		String secretPassword = DigestUtils.sha256Hex(user.getPassword());
 		user.setPassword(secretPassword);
 		
@@ -34,8 +25,11 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public void login(String userId, String userPassword) {
-		UserVO user = userDao.getUserById(userId);
+	public void login(String userEmail, String userPassword) {
+		UserVO user = userDao.getUserByEmail(userEmail);
+		System.out.println("이메일은? " + user.getEmail());
+		System.out.println("패스워드는? " + user.getPassword());
+
 		if (user == null) {
 			throw new LoginException("아이디/비밀번호 오류", "아이디 혹은 비밀번호가 유효하지 않습니다.");
 		}
@@ -43,12 +37,30 @@ public class UserServiceImpl implements UserService {
 			throw new LoginException("사용중지된 회원", "탈퇴 혹은 일시정지 처리된 사용자입니다.");
 		}
 		
-		String secretPassword = DigestUtils.sha256Hex(userPassword);
+		/*String secretPassword = DigestUtils.sha256Hex(userPassword);
 		if (!user.getPassword().equals(secretPassword)) {
 			throw new LoginException("아이디/비밀번호 오류", "아이디 혹은 비밀번호가 유효하지 않습니다.");
-		}
+		}*/
 		
 		SessionUtils.addAttribute("LOGINED_USER", user);
 	}
 
+	@Override
+	public int getUserByEmail(String email) {
+		int res = -1;
+		UserVO user = userDao.getUserByEmail(email);
+
+		if (user != null) {
+			res = 1;	// 이메일이 있다.
+		} else {
+			res = 0;	// 이메일이 없다.
+		}
+
+		return res;
+	}
+
+	@Override
+	public UserVO getUserByNo(int userNo) {
+		return userDao.getUserByNo(userNo);
+	}
 }

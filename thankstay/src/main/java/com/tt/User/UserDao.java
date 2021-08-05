@@ -12,16 +12,11 @@ public interface UserDao {
     void insertUser(UserVO user);
 
     /**
-     * 지정된 사용자아이디로 데이터베이스에서 사용자정보를 조회해서 반환한다.
-     * @param userId 사용자 아이디
-     * @return 사용자정보, null일 수 있음
-     */
-    UserVO getUserById(String userId);
-
-    /**
      * 지정된 사용자이메일로 데이터베이스에서 사용자정보를 조회해서 반환한다
      * @param userEmail 사용자 이메일
      * @return 사용자정보, null일 수 있음
      */
     UserVO getUserByEmail(String userEmail);
+    
+    UserVO getUserByNo(int userNo);
 }

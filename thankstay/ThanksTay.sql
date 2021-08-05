@@ -18,6 +18,7 @@ DROP TABLE Thxtay_Transaction_Register CASCADE CONSTRAINTS;
 DROP TABLE Thxtay_Wishlist CASCADE CONSTRAINTS;
 DROP TABLE Thxtay_User CASCADE CONSTRAINTS;
 
+
 /* Drop Sequence */
 
 DROP SEQUENCE USER_SEQ;
@@ -65,7 +66,7 @@ CREATE TABLE Thxtay_Booking
 	-- 숙박일수
 	booking_date number NOT NULL,
 	-- 예약상태
-	booking_status char(7) DEFAULT 'BKG0101',
+	booking_status varchar2(20) DEFAULT 'BKG0101',
 	-- 예약인원
 	booking_guest number NOT NULL,
 	-- 총 숙박료
@@ -119,14 +120,14 @@ CREATE TABLE Thxtay_Chatting_Room
 -- 공통코드
 CREATE TABLE Thxtay_Common_Code
 (
-	-- 공통코드
-	commonCode char(10) NOT NULL,
 	-- 상위공통코드
-	parentCode char(7),
+	parentCode varchar2(20),
+	-- 공통코드
+	commonCode varchar2(20) NOT NULL,
 	-- 공통코드명
 	codeContent varchar2(255),
 	-- 우선순위
-	priority number,
+	importance number,
 	-- 등록일시
 	createdDate date DEFAULT sysdate,
 	-- 수정일시
@@ -140,16 +141,14 @@ CREATE TABLE Thxtay_Deleted_User
 (
 	-- 유저번호
 	user_no number NOT NULL,
-	-- 아이디
-	user_id varchar2(255) NOT NULL,
 	-- 비밀번호
 	user_password char(64),
 	-- 이메일
 	user_email varchar2(255) NOT NULL UNIQUE,
 	-- 생년월일
-	user_date varchar2(255) NOT NULL,
+	user_birth date NOT NULL,
 	-- 전화번호
-	user_phone varchar2(255) NOT NULL UNIQUE,
+	user_phone varchar2(255),
 	-- 프로필사진
 	user_picture clob,
 	-- 이메일 확인
@@ -222,9 +221,13 @@ CREATE TABLE Thxtay_Lodging
 	-- 가격대비 만족도
 	lodging_value number DEFAULT 0,
 	-- 숙소상태 : 등록중, 승인대기
-	lodging_status char(7) DEFAULT 'LDG0301',
+	lodging_status varchar2(20) DEFAULT 'LDG0301',
 	-- 숙소타입 코드 : 집전체, 호텔객실
-	lodging_type_code char(7),
+	lodging_type_code varchar2(20),
+	-- 숙소위도
+	lodging_lat number,
+	-- 숙소경도
+	lodging_lng number,
 	PRIMARY KEY (lodging_no)
 );
 
@@ -252,7 +255,7 @@ CREATE TABLE Thxtay_Payment
 	-- 결제일시
 	payment_created_date date DEFAULT sysdate,
 	-- 결제수단
-	payment_method char(7) NOT NULL,
+	payment_method varchar2(20) NOT NULL,
 	PRIMARY KEY (payment_no)
 );
 
@@ -342,7 +345,7 @@ CREATE TABLE Thxtay_Transaction_Register
 	-- 유저번호
 	user_no number NOT NULL,
 	-- 은행코드
-	TR_bank_code char(7) NOT NULL,
+	TR_bank_code varchar2(20) NOT NULL,
 	-- 대금등록 이름
 	TR_name varchar2(255) NOT NULL,
 	-- 대금등록 이메일
@@ -358,16 +361,14 @@ CREATE TABLE Thxtay_User
 (
 	-- 유저번호
 	user_no number NOT NULL,
-	-- 아이디
-	user_id varchar2(255) NOT NULL UNIQUE,
 	-- 비밀번호
 	user_password char(64),
 	-- 이메일
 	user_email varchar2(255) NOT NULL UNIQUE,
 	-- 생년월일
-	user_date varchar2(255) NOT NULL,
+	user_birth date NOT NULL,
 	-- 전화번호
-	user_phone varchar2(255) NOT NULL UNIQUE,
+	user_phone varchar2(255),
 	-- 프로필사진
 	user_picture clob,
 	-- 이메일 확인
@@ -377,7 +378,7 @@ CREATE TABLE Thxtay_User
 	-- 소개
 	user_info varchar2(4000),
 	-- 호스트여부
-	user_isHost char(1) DEFAULT '1',
+	user_isHost char(1) DEFAULT 'N',
 	-- 관리자여부
 	user_isAdmin char(1) DEFAULT 'N',
 	-- 탈퇴여부
@@ -541,6 +542,7 @@ ALTER TABLE Thxtay_Wish_Zzim
 	ADD FOREIGN KEY (wishlist_no)
 	REFERENCES Thxtay_Wishlist (wishlist_no)
 ;
+
 
 
 /* Create Sequence */

@@ -9,10 +9,22 @@ public interface UserService {
     void registerUser(UserVO user);
 
     /**
-     * 지정된 아이디와 비밀번호로 사용자인증을 수행하는 서비스
-     * @param id 사용자 아이디
+     * 지정된 이메일과 비밀번호로 사용자인증을 수행하는 서비스
+     * @param email 사용자 이메일
      * @param password 사용자 비밀번호
      */
-    void login(String id, String password);
+    void login(String email, String password);
 
+    /**
+     * 지정된 사용자이메일로 데이터베이스에서 사용자정보를 조회해서 반환한다
+     * @param email 사용자 이메일
+     */
+    int getUserByEmail(String email);
+
+    /**
+     * 테스트용 로그인유저 획득 위해 임시 추가함 
+     * @param userNo
+     * @return
+     */
+    UserVO getUserByNo(int userNo);
 }

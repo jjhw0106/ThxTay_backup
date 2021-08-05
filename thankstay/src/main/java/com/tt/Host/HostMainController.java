@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.tt.Common.CommonDao;
 import com.tt.Lodging.LodgingVO;
+import com.tt.User.UserDao;
+import com.tt.User.UserService;
 import com.tt.User.UserVO;
 import com.tt.vo.CommonCodeVO;
 import com.tt.web.annotation.LoginUser;
@@ -27,10 +29,13 @@ public class HostMainController {
 	
 	@Autowired
 	HostService hostService;
+	@Autowired
+	UserService	userService;
 	
-
+	UserVO loginedUser = userService.getUserByNo(1);
+	
 	@GetMapping(path = { "/hosting" })
-	public String hosting(Model model) {
+	public String hosting(UserVO user, Model model) {
 		
 		return "host/hostMain";
 	}
@@ -39,16 +44,24 @@ public class HostMainController {
 	public String lodgingRegisterForm(UserVO user, Model model) {	//ajax라 model 삭제할것
 		logger.info("lodgingRegisterForm() 실행");
 		
-		String commonCode = hostService.getCommonCodeByContent("숙소타입");
-		System.out.println("CommonCode:"+ commonCode);
+		if(loginedUser==null) {
+			//로그인창 ㄱㄱ
+		}
+		List<LodgingVO> lodgings= hostService.getLodgingsByLoginedUserNo(loginedUser.getNo());
 		
-		List<CommonCodeVO> lodgingTypeCodes = hostService.getCommonCodesByParentCode(commonCode);	// Q. 왜 아무값도 없는지?
+		
+		String commonCode = hostService.getCommonCodeByContent("숙소타입");
+		System.out.println("CommonCode:"+ commonCode+"입니다");
+		
+		List<CommonCodeVO> lodgingTypeCodes = hostService.getCommonCodesByParentCode(commonCode);	
 		System.out.println("사이즈는!!!!:"+lodgingTypeCodes.size());
 		System.out.println("DDDSAFS :"+lodgingTypeCodes);
 		for (CommonCodeVO commonCodeVO : lodgingTypeCodes) {
 			System.out.println("숙소타입목록:"+commonCodeVO.getCommonCode());
 		}
 		// 숙소 타입 -> 체크박스 (공통코드로 불러와야함) 
+		
+		// 주소 입력시 카카오 지도 api에서 구해주는 위경도 값 입력해야함 -> 남미씨 쪽이랑 연관
 		// 나머지는 -> input
 		 
 		return "host/lodgingRegisterForm";

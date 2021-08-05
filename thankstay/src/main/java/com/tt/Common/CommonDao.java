@@ -3,7 +3,6 @@ package com.tt.Common;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import com.tt.vo.CommonCodeVO;
 
@@ -30,5 +29,8 @@ public interface CommonDao {
 	
 	List<CommonCodeVO> getCommonCodeVosByParentCode(String commonCode);
 	
+	List<String> getAllCommonCodes();
+	
+	List<String> getAllParentCodes();
 	/* jhw 추가 */
 }

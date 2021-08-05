@@ -2,32 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <!-- 
-	com.sample.dao.UserDao 매퍼인터에시으세 대한 매퍼파일(SQL이 정의된 파일) 정의
+	com.sample.dao.UserDao 매퍼인터에시으세 대한 매퍼   파일(SQL이 정의된 파일) 정의
 -->
-<mapper namespace="com.sample.dao.UserDao">
-
-    <select id="getUserById" parameterType="string" resultType="com.tt.User.UserVO">
-        SELECT
-            *
-        FROM
-            sample_users
-        WHERE
-            user_id = #{value}
-    </select>
+<mapper namespace="com.tt.User.UserDao">
 
     <select id="getUserByEmail" parameterType="string" resultType="com.tt.User.UserVO">
         SELECT
-            *
+            user_no             as no,
+            user_password       as password,
+            user_email          as email,
+            user_birth          as birth,
+            user_phone          as phone,
+            user_picture        as picture,
+            user_email_check    as emailCheck,
+            user_name           as name,
+            user_info           as info,
+            user_ishost         as isHost,
+            user_isadmin        as isAdmin,
+            user_deleted        as deleted,
+            user_created_date   as createdDate,
+            user_updated_date   as updatedDate
         FROM
-            sample_users
+            thxtay_user
         WHERE
             user_email = #{value}
     </select>
 
     <insert id="insertUser" parameterType="com.tt.User.UserVO">
-        INSERT INTO sample_users
-        (user_id, user_password, user_name, user_email, user_phone)
+        INSERT INTO thxtay_user
+        (user_no, user_password, user_name, user_email, user_birth)
         VALUES
-        (#{id}, #{password}, #{name}, #{email}, #{phone})
+        (user_seq.nextval, #{password}, #{name}, #{email}, TO_DATE(#{birth},'YYYY-MM-DD'))
     </insert>
 </mapper>

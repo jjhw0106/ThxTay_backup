@@ -118,6 +118,7 @@ body {
 			</div>
 			<div class="lodgingStatus" style="position: absloute;">
 				<div class="lodgingStatusWrapper">
+				
 					<h2 style="font-weight: bold">숙소 등록 완료하기</h2>
 					<div class="chooseStatus" style="padding-bottom: 50px;">
 						<button class="chooseStatusBtn" type="button" role="radio"
@@ -128,6 +129,7 @@ body {
 					<h2 style="font-weight: bold">숙소 등록 시작하기</h2>
 					<div class="chooseStatus">
 						<a href="/lodgingAdd">
+						<!-- 등록중인 숙소가 있을 때 새로운 숙소 등록하기 누를 시 => 등록중인 숙소 지우고 새로 시작 -->
 							<button class="chooseStatusBtn" type="button" role="radio"
 								aria-checked="false">
 								<p>새로운 숙소 등록하기</p>

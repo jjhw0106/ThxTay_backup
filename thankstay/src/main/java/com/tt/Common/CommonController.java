@@ -25,20 +25,6 @@ import com.tt.web.utils.SessionUtils;
  */
 @Controller
 public class CommonController {
-
-	@Autowired UserService userService;
-
-	@ExceptionHandler(UserRegisterException.class)
-	public String handleUserRegisterException(UserRegisterException ex, Model model) {
-		model.addAttribute("error", ex);
-		return "form";
-	}
-	@ExceptionHandler(LoginException.class)
-	public String handleLoginException(LoginException ex, Model model) {
-		model.addAttribute("error", ex);
-		return "loginform";
-	}
-
 	/*
 	 * @RequestMapping, @GetMapping, @PostMapping, @PutMapping, @DeleteMapping
 	 * 		- 요청URL와 요청핸들러 메소드를 매핑시킨다.
@@ -115,76 +101,4 @@ public class CommonController {
 	 * 					public List<Board> getBoardList() {...}
 	 * 				}
 	 */
-
-	// 요청URL : localhost/spring-mvc/register
-	// 회원가입화면으로 내부이동하는 요청핸들러 메소드
-	@GetMapping("/register")
-	public String registerform() {
-		return "form";
-	}
-
-	/*
-	@PostMapping("/register")
-	public String register(@RequestParam("id") String userId,
-			@RequestParam("password") String userPassword,
-			@RequestParam("passwordConfirm") String userPasswordConfirm,
-			@RequestParam("name") String userName,
-			@RequestParam("email") String userEmail,
-			@RequestParam("phone") String userPhone) {
-		logger.debug("register() 실행됨");
-		logger.info("회원정보를 등록함");
-
-		logger.debug("register() 종료됨");
-		return "redirect:home";
-	}
-
-	@PostMapping("/register")
-	public String register(String id, String password, String passwordConfirm,
-			String name, String email, String phone) {
-		logger.debug("register() 실행됨");
-		logger.info("회원정보를 등록함");
-
-		logger.debug("register() 종료됨");
-		return "redirect:home";
-	}
-	 */
-
-	@PostMapping("/register")
-	public String register(UserRegisterForm userRegisterForm) {
-		// User객체를 생성하고, UserRegisterForm의 값을 User객체로 복사한다.
-		UserVO user = new UserVO();
-		BeanUtils.copyProperties(userRegisterForm, user);
-
-		// UserService의 registerUser(user)를 호출해서 업무로직을 수행한다.
-		userService.registerUser(user);
-
-		return "redirect:home";
-	}
-
-	@GetMapping("/login")
-	public String loginform() {
-		return "loginform";
-	}
-
-	@PostMapping("/login")
-	public String login(@RequestParam("id") String userId, @RequestParam("password") String userPassword) {
-
-		userService.login(userId, userPassword);
-
-		// 로그인 전 페이지로 되돌아가기
-		String returnPath = (String) SessionUtils.getAttribute("returnPath");
-		SessionUtils.removeAttribute("returnPath");
-		if (returnPath != null) {
-			return "redirect:" + returnPath;
-		}
-
-		return "redirect:home";
-	}
-
-	@GetMapping("/logout")
-	public String logout() {
-		SessionUtils.destroySession();
-		return "redirect:home";
-	}
-
 }

@@ -100,7 +100,7 @@ a {
 	}
 	.navbar_icons {
 		display: none;
-		justify-content: center;
+		justify-content: center;                                                                                                                                                           
 		width: 100%;
 	}
 	.navbar_toggleBtn {

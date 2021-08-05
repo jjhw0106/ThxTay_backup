@@ -1,11 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tt.Host">
-	<insert id = "enrollLodgings" parameterType="com.tt.Lodging.LodgingVO">
-		insert into thxtay_lodging
-		()
-		values
-		()
-	</insert>
-	
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tt.Lodging.LodgingDao">
+	<select id="getLodingByStatus" parameterType="string"
+		resultType="com.tt.Lodging.LodgingVO">
+		SELECT
+		LODGing_no
+		user_no
+		lodging_city
+		lodging_post_no
+		lodging_address
+		lodging_address_rest
+		lodging_description
+		lodging_imm_approval
+		lodging_max_guest
+		lodging_image
+		lodging_name
+		lodging_bedroom
+		lodging_bathroom
+		lodging_singlebed
+		lodging_doublebed
+		lodging_view_count
+		lodging_review_count
+		lodging_review_average
+		lodging_cleanness
+		lodging_communication
+		lodging_check_in
+		lodging_accuracy
+		lodging_location
+		lodging_value
+		lodging_status
+		lodging_type_code
+		lodging_lat
+		lodging_lNG
+		FROM
+		WHERE
+	</select>
+	<select id="getLodgingByUserNo" parameterType="int" resultType="com.tt.User.UserVO">
+		SELECT
+			lodging_no
+			user_no
+			lodging_city
+			lodging_post_no
+			lodging_address
+			lodging_address_rest
+			lodging_description
+			lodging_imm_approval
+			lodging_max_guest
+			lodging_image
+			lodging_name
+			lodging_bedroom
+			lodging_bathroom
+			lodging_singlebed
+			lodging_doublebed
+			lodging_view_count
+			lodging_review_count
+			lodging_review_average
+			lodging_cleanness
+			lodging_communication
+			lodging_check_in
+			lodging_accuracy
+			lodging_location
+			lodging_value
+			lodging_status
+			lodging_type_code
+			lodging_lat
+			lodging_lng
+		FROM
+			thxtay_lodging
+		WHERE
+			user_no=#{value}
+	</select>
 </mapper>

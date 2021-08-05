@@ -15,6 +15,8 @@ public class LodgingVO {
     private String postNo;          // 주소 우편번호
     private String address;         // 주소 상세주소
     private String addressRest;     // 주소 나머지주소
+    private double latitude;		// 숙소 위도
+    private double longitude;		// 숙소 경도
     private String description;     // 숙소설명
     private boolean immApproval;    // 즉시승인여부
     private int maxGuest;           // 최대 인원수
