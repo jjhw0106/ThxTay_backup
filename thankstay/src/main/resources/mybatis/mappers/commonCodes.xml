@@ -21,7 +21,7 @@
 			commoncode 		as commonCode
 			,parentcode		as parentCode
 			,codecontent	as codeContent
-			,priority		as priority
+			,importance		as importance
 			,createddate	as createdDate
 			,updateddate	as updatedDate
 		FROM	
@@ -34,7 +34,7 @@
 			commoncode
 			,parentcode		
 			,codecontent	
-			,priority		
+			,importance		
 			,createddate	
 			,updateddate	
 		FROM	

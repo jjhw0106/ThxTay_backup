@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tt.Common.CommonDao;
+import com.tt.Lodging.LodgingDao;
 import com.tt.Lodging.LodgingVO;
 import com.tt.User.UserDao;
 import com.tt.vo.CommonCodeVO;
@@ -18,7 +19,12 @@ public class HostServiceImpl implements HostService {
 
 	@Autowired
 	UserDao userDao;
+
+	@Autowired
+	LodgingDao lodgingDao;
+
 	/* jhw 추가 */
+	
 	
 
 
@@ -51,7 +57,7 @@ public class HostServiceImpl implements HostService {
 
 	@Override
 	public List<LodgingVO> getLodgingsByLoginedUserNo(int userNo) {
-		return null;
+		return lodgingDao.getLodgingsByUserNo(userNo);
 	}
 	
 	
