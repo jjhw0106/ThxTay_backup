@@ -10,6 +10,9 @@
 	rel="stylesheet"
 	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 	crossorigin="anonymous">
+	
+<script src="https://kit.fontawesome.com/f421352664.js"
+	crossorigin="anonymous"></script>	
 <style>
 
 /* 공통 CSS */
@@ -24,6 +27,19 @@ body {
 	font-family: 'nanumgothic' !important;
 	font-family: 'Source Sans Pro';
 }
+@media(min-width:744px){
+.go-main{
+display:inline !important;
+font-size: 24px;
+}
+}
+.go-main{
+	position:fixed;
+	z-index: 1;
+	top:27px;
+	left:32px;
+	display:none;
+}
 /* 공통 CSS */
 .lodgingEnrollment {
 	width: 100%;
@@ -34,8 +50,8 @@ body {
 	position: absolute;
 	width: 50%;
 	height: 100%;
-	background-image:
-		url('data:image/webp;base64,UklGRoQCAABXRUJQVlA4WAoAAAAgAAAAHQAAHQAASUNDUAwCAAAAAAIMbGNtcwIQAABtbnRyUkdCIFhZWiAH3AABABkAAwApADlhY3NwQVBQTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA9tYAAQAAAADTLWxjbXMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAApkZXNjAAAA/AAAAF5jcHJ0AAABXAAAAAt3dHB0AAABaAAAABRia3B0AAABfAAAABRyWFlaAAABkAAAABRnWFlaAAABpAAAABRiWFlaAAABuAAAABRyVFJDAAABzAAAAEBnVFJDAAABzAAAAEBiVFJDAAABzAAAAEBkZXNjAAAAAAAAAANjMgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB0ZXh0AAAAAEZCAABYWVogAAAAAAAA9tYAAQAAAADTLVhZWiAAAAAAAAADFgAAAzMAAAKkWFlaIAAAAAAAAG+iAAA49QAAA5BYWVogAAAAAAAAYpkAALeFAAAY2lhZWiAAAAAAAAAkoAAAD4QAALbPY3VydgAAAAAAAAAaAAAAywHJA2MFkghrC/YQPxVRGzQh8SmQMhg7kkYFUXdd7WtwegWJsZp8rGm/fdPD6TD//1ZQOCBSAAAAUAMAnQEqHgAeAD7ZYKpOtiWooygKqsAbCWQAnTLfAiGYXfAA/uw/rDUG/ySry930W5TklUCdPGwZvhShkxmlA5XTMUKtCBVuol3YS6MrvY4AAA==');
+	 background-image:
+		url('data:image/webp;base64,UklGRoQCAABXRUJQVlA4WAoAAAAgAAAAHQAAHQAASUNDUAwCAAAAAAIMbGNtcwIQAABtbnRyUkdCIFhZWiAH3AABABkAAwApADlhY3NwQVBQTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA9tYAAQAAAADTLWxjbXMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAApkZXNjAAAA/AAAAF5jcHJ0AAABXAAAAAt3dHB0AAABaAAAABRia3B0AAABfAAAABRyWFlaAAABkAAAABRnWFlaAAABpAAAABRiWFlaAAABuAAAABRyVFJDAAABzAAAAEBnVFJDAAABzAAAAEBiVFJDAAABzAAAAEBkZXNjAAAAAAAAAANjMgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB0ZXh0AAAAAEZCAABYWVogAAAAAAAA9tYAAQAAAADTLVhZWiAAAAAAAAADFgAAAzMAAAKkWFlaIAAAAAAAAG+iAAA49QAAA5BYWVogAAAAAAAAYpkAALeFAAAY2lhZWiAAAAAAAAAkoAAAD4QAALbPY3VydgAAAAAAAAAaAAAAywHJA2MFkghrC/YQPxVRGzQh8SmQMhg7kkYFUXdd7WtwegWJsZp8rGm/fdPD6TD//1ZQOCBSAAAAUAMAnQEqHgAeAD7ZYKpOtiWooygKqsAbCWQAnTLfAiGYXfAA/uw/rDUG/ySry930W5TklUCdPGwZvhShkxmlA5XTMUKtCBVuol3YS6MrvY4AAA=='); 
 	background-size: cover;
 	color: white;
 }
@@ -111,25 +127,30 @@ body {
 </head>
 <body>
 	<div class="container-fluid">
-		<%@include file="../common/hostHeader.jsp"%>
 		<div class="lodgingEnrollment">
 			<div class="leftArea">
-				<div class="welcomeMessage">~님 환영합니다</div>
+				<a href="home" class="go-main"><i class="fab fa-airbnb" style="color: white; padding: 10px;"></i></a>
+				<div class="welcomeMessage">${loginedUser.name }님환영합니다</div>
 			</div>
 			<div class="lodgingStatus" style="position: absloute;">
 				<div class="lodgingStatusWrapper">
-				
-					<h2 style="font-weight: bold">숙소 등록 완료하기</h2>
 					<div class="chooseStatus" style="padding-bottom: 50px;">
+						<c:forEach var="lodging" items="${lodgings }">
+							<c:if test="${lodging.status eq 'LDG0301' }">
+							<c:set var="lodgingRegistering" value="${lodging}" />
+							</c:if>
+						</c:forEach>
+						<c:if test="${lodgingRegistering.status eq 'LDG0301'}">
+					<h2 style="font-weight: bold">숙소 등록 완료하기</h2>
 						<button class="chooseStatusBtn" type="button" role="radio"
 							aria-checked="false">
-							<p>숙소 등록일 : 2021-07-30</p>
+							<p id="lodgingRegistering">${lodgingRegistering.name }</p>
 						</button>
+						</c:if>
 					</div>
 					<h2 style="font-weight: bold">숙소 등록 시작하기</h2>
 					<div class="chooseStatus">
-						<a href="/lodgingAdd">
-						<!-- 등록중인 숙소가 있을 때 새로운 숙소 등록하기 누를 시 => 등록중인 숙소 지우고 새로 시작 -->
+						<a href="/lodgingAdd"> <!-- 등록중인 숙소가 있을 때 새로운 숙소 등록하기 누를 시 => 등록중인 숙소 지우고 새로 시작 -->
 							<button class="chooseStatusBtn" type="button" role="radio"
 								aria-checked="false">
 								<p>새로운 숙소 등록하기</p>
@@ -145,7 +166,6 @@ body {
 				</div>
 			</div>
 		</div>
-		<div class="nextBox">1</div>
 	</div>
 	<script>
 		

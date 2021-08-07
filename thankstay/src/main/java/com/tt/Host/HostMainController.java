@@ -36,35 +36,36 @@ public class HostMainController {
 
 	@GetMapping(path = { "/hosting" })
 	public String hosting(UserVO user, Model model) {
-
+		
 		return "host/hostMain";
 	}
 	
 	
 	
-	@GetMapping("/lodgingRegister")
+	@GetMapping("/lodgingRegister")	// q. 이 부분이 lodgingController에 들어가야하는지?? // 58번줄 hostService->lodgingService로 옮기는 것이 맞는지?
 	public String lodgingRegisterStatus(UserVO user, Model model) { // ajax라 model 삭제할것
-		logger.info("lodgingRegisterStatus() 실행");
 		UserVO loginedUser = userService.getUserByNo(1);
-		logger.info(loginedUser);
 		
 		if (loginedUser == null) { // 로그인창 ㄱㄱ
 			return "home";
 		}
 		
-		String commonCode = hostService.getCommonCodeByContent("숙소타입");
+		
 
 		//로그인한 유저의 숙소정보 전달
-		List<LodgingVO> lod = hostService.getLodgingsByLoginedUserNo(loginedUser.getNo());
-		logger.info("userNo"+loginedUser.getNo());
-		logger.info("lodgings size:"+lod.size());
-		logger.info("lodgings:"+lod.toString());
+		
+		//Q. lodgings에서 status가 '등록중'인 lodging(유저당 1개만 존재)이 필요함->  어떤방식으로 model에 변수를 넘기는것이 가장 좋은가?
+		/* 1. 애초에 xml에서 getLodging을 만들어서 조회한다.
+		 * 2. 컨트롤러에서 for(lodging.status='등록중'=>target = lodging, break;)후 target을 넘긴다
+		 * 3. jstl을 이용하여 jsp에서 forEach, if를 통해 lodging을 구한다. ->list 전체를 검색해야 함
+		 * 4. json형태로 데이터를 보내서 jsp에서 자바스크립트를 통해 구한다.
+		 * 		2번이 제일 편한데 사용해도 되는지?
+		 * */
+		List<LodgingVO> lodgings = hostService.getLodgingsByLoginedUserNo(loginedUser.getNo());
 		model.addAttribute("loginedUser", loginedUser);
-		model.addAttribute(lod);
+		model.addAttribute("lodgings", lodgings);
 
 
-		List<CommonCodeVO> lodgingTypeCodes = hostService.getCommonCodesByParentCode(commonCode);
-		// 숙소 타입 -> 체크박스 (공통코드로 불러와야함)
 
 		// 주소 입력시 카카오 지도 api에서 구해주는 위경도 값 입력해야함 -> 남미씨 쪽이랑 연관
 		// 나머지는 -> input
@@ -72,10 +73,6 @@ public class HostMainController {
 		return "host/lodgingRegisterForm";
 	}
 
-	/*
-	 * Q. 문제점 : 숙소 정보, 숙소 주소를 다른 페이지에서 입력할 건데 not null 제약조건때문에 에러가 발생할 것 같음 등록한 부분까지
-	 * 저장해 놓고 다음에 다시 등록하려면 저장한 부분까지 불러오는 방식으로 구현하려 함
-	 */
 	@PostMapping("/lodgingRegister")
 	public String lodgingRegister() {
 
@@ -83,8 +80,16 @@ public class HostMainController {
 	}
 
 	@GetMapping("/lodgingAdd")
-	public String lodgingAddForm() {
+	public String lodgingAddForm(UserVO user, Model model ) {
+		UserVO loginedUser = userService.getUserByNo(1);
+
 		logger.info("lodgingAddForm() 실행");
+		String commonCode = hostService.getCommonCodeByContent("숙소타입");
+		List<CommonCodeVO> lodgingTypeCodes = hostService.getCommonCodesByParentCode(commonCode);
+	
+		model.addAttribute("lodgingTypes", lodgingTypeCodes);
+		// 숙소 타입 -> 체크박스 (공통코드로 불러와야함)
+		
 
 		return "host/lodgingAddForm";
 	}
