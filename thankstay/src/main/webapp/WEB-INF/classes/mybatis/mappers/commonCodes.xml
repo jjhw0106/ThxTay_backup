@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tt.Common.CommonDao">
+	<!-- 
+	eviction: 캐시 알고리즘 속성, 기본: LRU 
+	flushInterval: 캐시 유지 시간 설정 (특정 시각을 정하지 못함)
+	size: 디폴트 값 1024, 메모리 ㅎ
+	-->
+	<cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true"/>
+	
+	<select id="getCommonCodeByCodeContent" useCache="true" parameterType="string" resultType="string">
+		SELECT 
+			commoncode 	
+		FROM	
+			thxtay_common_code
+		WHERE
+			codecontent = #{value}
+	</select>
+	<select id="getAllCommonCodeVos" resultType="com.tt.Common.CommonCodeVO">
+		SELECT 
+			commoncode 		as commonCode
+			,parentcode		as parentCode
+			,codecontent	as codeContent
+			,importance		as importance
+			,createddate	as createdDate
+			,updateddate	as updatedDate
+		FROM	
+			thxtay_common_code
+	</select>
+	
+	
+	<select id="getCommonCodeVosByParentCode" parameterType="string" resultType="com.tt.Common.CommonCodeVO">
+		SELECT 
+			commoncode
+			,parentcode		
+			,codecontent	
+			,importance		
+			,createddate	
+			,updateddate	
+		FROM	
+			thxtay_common_code
+		WHERE
+			parentcode=#{value}
+	</select>
+	
+	<!-- Q2. 왜 안되는지? -->
+	<select id="getCmCodesByContents" resultType="string"> <!-- 파라미터값은 @param을 사용해서 리스트를 받아옴 -->
+		SELECT
+			commoncode 		as commonCode
+		FROM
+			thxtay_common_code
+		WHERE
+			codecontent in
+			<foreach collection="list" item="item" index="index" open="(" separator="," close=")"><!-- list자리에  -->
+				#{item}
+			</foreach>
+	</select>
+	
+	<!-- <select id="getAllCommonCodes" useCache="true" resultType="string">
+		SELECT	
+			commoncode
+		FROM
+			thxtay_common_code
+	</select>
+	<select id="getAllParentCodes" useCache="true" resultType="string">
+		SELECT
+			parentcode
+		FROM
+			thxtay_common_code
+	</select> -->
+</mapper>

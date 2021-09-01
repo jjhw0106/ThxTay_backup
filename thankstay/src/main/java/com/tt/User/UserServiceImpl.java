@@ -1,7 +1,5 @@
 package com.tt.User;
 
-import com.tt.exception.LoginException;
-import com.tt.exception.UserRegisterException;
 import com.tt.web.utils.SessionUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,38 +9,58 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
-	
-	// @Autowired CartItemDao cartItemDao;
-	// @Autowired ReviewDao reviewDao;
+
 	@Autowired UserDao userDao;
 	
 	@Override
 	public void registerUser(UserVO user) {
+		// 패스워드 암호화
 		String secretPassword = DigestUtils.sha256Hex(user.getPassword());
 		user.setPassword(secretPassword);
 		
 		userDao.insertUser(user);
 	}
-	
-	@Override
-	public void login(String userEmail, String userPassword) {
-		UserVO user = userDao.getUserByEmail(userEmail);
-		System.out.println("이메일은? " + user.getEmail());
-		System.out.println("패스워드는? " + user.getPassword());
 
-		if (user == null) {
-			throw new LoginException("아이디/비밀번호 오류", "아이디 혹은 비밀번호가 유효하지 않습니다.");
-		}
-		if (!"N".equalsIgnoreCase(user.getDeleted())) {
-			throw new LoginException("사용중지된 회원", "탈퇴 혹은 일시정지 처리된 사용자입니다.");
-		}
-		
-		/*String secretPassword = DigestUtils.sha256Hex(userPassword);
-		if (!user.getPassword().equals(secretPassword)) {
-			throw new LoginException("아이디/비밀번호 오류", "아이디 혹은 비밀번호가 유효하지 않습니다.");
-		}*/
-		
+	@Override
+	public void registerProfile(UserVO user) {
+
+		userDao.updateProfile(user);
+	}
+
+	@Override
+	public void registerKakao(UserVO user) {
+		userDao.insertKakao(user);
 		SessionUtils.addAttribute("LOGINED_USER", user);
+	}
+
+	@Override
+	public int login(String userEmail, String userPassword) {
+		int res = -1;
+		UserVO user = userDao.getUserByEmail(userEmail);
+
+		String secretPassword = DigestUtils.sha256Hex(userPassword);
+		if (!user.getPassword().equals(secretPassword)) {
+			// 패스워드가 맞지 않다면 0
+			res = 0;
+		} else {
+			// 패스워드가 맞으면 1
+			res = 1;
+			// 세션에 LOGINED_UESR 란 이름으로 넣음
+			SessionUtils.addAttribute("LOGINED_USER", user);
+		}
+
+		return res;
+	}
+
+	@Override
+	public int loginKakao(UserVO user) {
+		int res = -1;
+		UserVO login = userDao.getUserByEmail(user.getEmail());
+
+		SessionUtils.addAttribute("LOGINED_USER", login);
+
+		res = 1;
+		return res;
 	}
 
 	@Override
@@ -51,6 +69,11 @@ public class UserServiceImpl implements UserService {
 		UserVO user = userDao.getUserByEmail(email);
 
 		if (user != null) {
+			if (!"N".equalsIgnoreCase(user.getDeleted())) {
+				res = 2;
+
+				return res;
+			}
 			res = 1;	// 이메일이 있다.
 		} else {
 			res = 0;	// 이메일이 없다.
@@ -62,5 +85,25 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserVO getUserByNo(int userNo) {
 		return userDao.getUserByNo(userNo);
+	}
+
+	@Override
+	public UserVO getUserByName(String userName) {
+		return userDao.getUserByName(userName);
+	}
+
+	@Override
+	public void updateWithdrawal(int userNo) {
+		userDao.updateWithdrawal(userNo);
+	}
+
+	@Override
+	public void insertDeletedUser(DeletedUserVO duser) {
+		userDao.insertDeletedUser(duser);
+	}
+
+	@Override
+	public void enrollHost(int userNo) {
+		userDao.updateUserIsHost(userNo);
 	}
 }

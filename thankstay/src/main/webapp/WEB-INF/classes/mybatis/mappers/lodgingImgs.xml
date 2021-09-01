@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tt.Lodging.LodgingImgDao">
+	<insert id="insertImage" parameterType="com.tt.Lodging.LodgingImgVO">
+		INSERT INTO	thxtay_lodging_img
+			(lodgingimg_no
+			,lodging_no
+			,lodgingimg_uri)
+		VALUES
+			(lodgingimg_seq.nextval
+			,#{lodgingNo}
+			,#{uri})
+	</insert>
+	
+	<select id="getImgListByLdgNo" parameterType="map" resultType="com.tt.Lodging.LodgingImgVO">
+	SELECT rk, no, lodgingNo, uri
+	FROM(
+	SELECT
+		rank() over (order by lodgingimg_no desc) rk
+		,lodgingimg_no no
+		,lodging_no lodgingNo
+		,lodgingimg_uri uri
+	FROM
+		thxtay_lodging_img
+	WHERE
+		lodging_no=#{lodgingNo}
+	)
+	<if test="getCnt!=null">
+	WHERE
+		rk<![CDATA[<=]]>#{getCnt}
+	</if>
+	</select>
+
+	<select id="getImgByLdgNo" parameterType="int" resultType="com.tt.Lodging.LodgingImgVO">
+		SELECT rk, no, lodgingNo, uri
+		FROM(
+				SELECT
+				rank() over (order by lodgingimg_no desc) rk
+					,lodgingimg_no no
+					,lodging_no lodgingNo
+					,lodgingimg_uri uri
+				FROM
+				thxtay_lodging_img
+				WHERE
+				lodging_no=#{lodgingNo}
+			)
+		WHERE rk = 1;
+	</select>
+</mapper>

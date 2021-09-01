@@ -19,6 +19,16 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 
+	<context:component-scan base-package="com.tt.Explore">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+	
+	<context:component-scan base-package="com.tt.Wishlist">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+
 	<context:component-scan base-package="com.tt.User">
 			<context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
 			<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
@@ -39,33 +49,20 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 
-	<!-- 
-		commons-dbcp2 라이브러리를 이용한 커넥션풀을 스프링의 빈으로 등록시킨다.
-	 -->
-	 
-		<!-- hdg DB 접속정보-->
-	<!-- <bean id="dataSource" 
-		class="org.apache.commons.dbcp2.BasicDataSource"
-		p:driverClassName="oracle.jdbc.OracleDriver"
-		p:url="jdbc:oracle:thin:@thankstay_high?TNS_ADMIN=C://Wallet_ThanksTay"
-		p:username="admin"
-		p:password="Gkehdrjs1234"/> -->
-		
-		<!-- jhw DB 접속정보-->
-		<bean id="dataSource"
-		class="org.apache.commons.dbcp2.BasicDataSource"
-		p:driverClassName="oracle.jdbc.OracleDriver"
-		p:url="jdbc:oracle:thin:@db202107231412_high?TNS_ADMIN=C://Wallet_DB202107231412"	
-		p:username="admin"
-		p:password="Ghdnjs!2020106"/>
-		
-		<!-- hr DB 접속정보 -->
-		<!-- <bean id="dataSource" 
-		class="org.apache.commons.dbcp2.BasicDataSource"
-		p:driverClassName="oracle.jdbc.OracleDriver"
-		p:url="jdbc:oracle:thin:@localhost:1521:xe"
-		p:username="hr"
-		p:password="zxcv1234"/> -->
+	<context:component-scan base-package="com.tt.Chat">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+
+	<context:property-placeholder location="classpath:/mybatis/*.properties"/>
+
+	<!-- DB 접속정보 -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+	p:driverClassName="${db.driverClassName}"
+	p:url="${db.url}"
+	p:username="${db.username}"
+	p:password="${db.password}"/>
+
 	<!-- 
 		선언적 트랜잭션 처리를 지원하는 트랜잭션 매니저를  스프링 컨테이너의 빈으로 등록한다.
 	 -->
@@ -88,7 +85,11 @@
 		p:configLocation="classpath:/mybatis/mybatis-config.xml"
 		p:mapperLocations="classpath:/mybatis/mappers/*.xml"/>
 
-
+	<!-- 
+		@Scheduled 스케줄러 <task:annotation-driven/>
+	<task:annotation-driven/>
+	<context:component-scan base-package="com.tt.Host"/>
+	 -->
 
 	<!--
 		지정된 패키지에서 mybatis용 Mapper 인터페이스(ProductDao, UserDao, OrderDao, ReviewDao,. CartDao 등)를 스캔해서
@@ -96,6 +97,9 @@
 	<mybatis-spring:scan base-package="com.tt.User"		annotation="org.apache.ibatis.annotations.Mapper" factory-ref="sqlSessionFactory" />
 	<mybatis-spring:scan base-package="com.tt.Admin"	annotation="org.apache.ibatis.annotations.Mapper" factory-ref="sqlSessionFactory" />
 	<mybatis-spring:scan base-package="com.tt.Common"	annotation="org.apache.ibatis.annotations.Mapper" factory-ref="sqlSessionFactory" />
+	<mybatis-spring:scan base-package="com.tt.Explore"	annotation="org.apache.ibatis.annotations.Mapper" factory-ref="sqlSessionFactory" />
 	<mybatis-spring:scan base-package="com.tt.Host"		annotation="org.apache.ibatis.annotations.Mapper" factory-ref="sqlSessionFactory" />
 	<mybatis-spring:scan base-package="com.tt.Lodging"	annotation="org.apache.ibatis.annotations.Mapper" factory-ref="sqlSessionFactory" />
+	<mybatis-spring:scan base-package="com.tt.Chat" 	annotation="org.apache.ibatis.annotations.Mapper" factory-ref="sqlSessionFactory" />
+	<mybatis-spring:scan base-package="com.tt.Wishlist"	annotation="org.apache.ibatis.annotations.Mapper" factory-ref="sqlSessionFactory" />
 </beans>

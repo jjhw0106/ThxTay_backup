@@ -16,7 +16,16 @@
 		WHERE
 			codecontent = #{value}
 	</select>
-	<select id="getAllCommonCodeVos" resultType="com.tt.vo.CommonCodeVO">
+	<select id = "getParentCodeByContent" parameterType="string" resultType="string">
+		SELECT
+			parentCode
+		FROM
+			thxtay_common_code
+		WHERE
+			codecontent=#{value}
+			
+	</select>
+	<select id="getAllCommonCodeVos" resultType="com.tt.Common.CommonCodeVO">
 		SELECT 
 			commoncode 		as commonCode
 			,parentcode		as parentCode
@@ -29,7 +38,7 @@
 	</select>
 	
 	
-	<select id="getCommonCodeVosByParentCode" parameterType="string" resultType="com.tt.vo.CommonCodeVO">
+	<select id="getCommonCodeVosByParentCode" parameterType="string" resultType="com.tt.Common.CommonCodeVO">
 		SELECT 
 			commoncode
 			,parentcode		
@@ -39,13 +48,24 @@
 			,updateddate	
 		FROM	
 			thxtay_common_code
-		<where>
-			<!-- commoncode는 됨 -->
-			<!-- Q. 기대값: LDG01을 부모코드로 갖는 LDG0101, 0102, 0103, BUT 아무값도 조회가 안됨, developer에서는 동작 확인-->
+		WHERE
 			parentcode=#{value}
-		</where> 
 	</select>
-	<select id="getAllCommonCodes" useCache="true" resultType="string">
+	
+	<!-- Q2. 왜 안되는지? -->
+	<select id="getCmCodesByContents" resultType="string"> <!-- 파라미터값은 @param을 사용해서 리스트를 받아옴 -->
+		SELECT
+			commoncode 		as commonCode
+		FROM
+			thxtay_common_code
+		WHERE
+			codecontent in
+			<foreach collection="list" item="item" index="index" open="(" separator="," close=")"><!-- list자리에  -->
+				#{item}
+			</foreach>
+	</select>
+	
+	<!-- <select id="getAllCommonCodes" useCache="true" resultType="string">
 		SELECT	
 			commoncode
 		FROM
@@ -56,5 +76,5 @@
 			parentcode
 		FROM
 			thxtay_common_code
-	</select>
+	</select> -->
 </mapper>

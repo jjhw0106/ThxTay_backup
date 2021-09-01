@@ -1,31 +1,20 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!doctype html>
-<html lang="ko">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-<script src="https://kit.fontawesome.com/f421352664.js"
-	crossorigin="anonymous"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<title>부트스트랩5 템플릿</title>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+
+<script src="https://kit.fontawesome.com/f421352664.js" crossorigin="anonymous"></script>
 <style>
 /* 공통 CSS */
-.container-fluid{padding: 0;}
+.container-fluid {
+	padding: 0;
+}
+
 @import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
 body {
 	margin: 0;
-	font-family:'nanumgothic' !important;
+	font-family: 'nanumgothic' !important;
 	font-family: 'Source Sans Pro';
 }
 /* 공통 CSS */
-
 .enrollButton {
 	margin: 0;
 	align-items: center;
@@ -99,146 +88,127 @@ body {
 	padding-top: 20px;
 	padding-left: 10%;
 }
-</style>
 
-</head>
-<body>
-	<div class="container-fluid">
-		<%@include file="../common/hostHeader.jsp"%>
-		<section>
-			<div class="todayBox">
-					<%-- <c:if 숙소상태: !등록중> --%>
-				<div class="todayInnerbox">
-					<div class="todayTitle">
-						<p>투데이</p>
-						<span><a href="lodgingRegister"><button
-									class="enrollButton">새 숙소 등록하기</button></a></span>
-					</div>
-					<div class="todayNotice">지금 바로 에어비앤비의 호스트가 되어 보세요!</div>
-				</div>
-				<%-- </c:if>
-					<c:if 숙소상태: 등록중>
-					<div class="todayInnerbox">
-						<div class="todayTitle">
-							<p>투데이</p>
-							<span><a href="#"><button class="enrollButton">숙소 등록 완료하기</button></a></span>
-						</div>
-						<div class="todayNotice">숙소 등록 절차가 거의 완료되었습니다! 숙소 페이지에 누락된 세부정보 몇 가지를 입력해주세요.</div>
-					</div>
-				</c:if> --%>
-			</div>
-			<div class="reservationWrapperBox">
-				<div class="reservationAlarmBox"></div>
-				<div class="reservationAlarmText">
-					<p>예약</p>
-					<p>게스트가 숙소를 예약하면 여기에 표시됩니다.</p>
-				</div>
-			</div>
-		</section>
-	</div>
-
-	<script src="https://kit.fontawesome.com/f421352664.js"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	<script>
-		/* hostHeader JS */
-		const toggleBtn = document.querySelector(".navbar_toggleBtn");
-		const menu = document.querySelector('.navbar_menu');
-		const icons = document.querySelector('.navbar_icons');
-
-		toggleBtn.addEventListener('click', function() {
-			menu.classList.toggle('active');
-			icons.classList.toggle('active');
-		});
-	</script>
-</body>
-</html>
-
-
-<%-- 
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!doctype html>
-<html lang="ko">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-	crossorigin="anonymous">
-<style>
-
-/* 공통 CSS */
-.container-fluid {
-	padding: 0;
-}
-
-@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
-
-body {
-	margin: 0;
-	font-family: 'nanumgothic' !important;
-	font-family: 'Source Sans Pro';
-}
-/* 공통 CSS */
-.leftArea {
-	display: flex;
-	position: absolute;
-	float: left;
-	width: 50%;
-	height: 100%;
-	background-image:
-		url('data:image/webp;base64,UklGRoQCAABXRUJQVlA4WAoAAAAgAAAAHQAAHQAASUNDUAwCAAAAAAIMbGNtcwIQAABtbnRyUkdCIFhZWiAH3AABABkAAwApADlhY3NwQVBQTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA9tYAAQAAAADTLWxjbXMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAApkZXNjAAAA/AAAAF5jcHJ0AAABXAAAAAt3dHB0AAABaAAAABRia3B0AAABfAAAABRyWFlaAAABkAAAABRnWFlaAAABpAAAABRiWFlaAAABuAAAABRyVFJDAAABzAAAAEBnVFJDAAABzAAAAEBiVFJDAAABzAAAAEBkZXNjAAAAAAAAAANjMgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB0ZXh0AAAAAEZCAABYWVogAAAAAAAA9tYAAQAAAADTLVhZWiAAAAAAAAADFgAAAzMAAAKkWFlaIAAAAAAAAG+iAAA49QAAA5BYWVogAAAAAAAAYpkAALeFAAAY2lhZWiAAAAAAAAAkoAAAD4QAALbPY3VydgAAAAAAAAAaAAAAywHJA2MFkghrC/YQPxVRGzQh8SmQMhg7kkYFUXdd7WtwegWJsZp8rGm/fdPD6TD//1ZQOCBSAAAAUAMAnQEqHgAeAD7ZYKpOtiWooygKqsAbCWQAnTLfAiGYXfAA/uw/rDUG/ySry930W5TklUCdPGwZvhShkxmlA5XTMUKtCBVuol3YS6MrvY4AAA==');
+.helpBox {
+	height: 500px;
+	width: 100%;
+	background-color:black;
 	background-size: cover;
-	color: white;
 }
 
-.leftAreaMessage{
-	font-size: 32px;
+.helpInnerBox {
+	width: 1440px;
+	justify-content: space-between;
+	align-items: center;
 	margin: 0 auto;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
 }
-
-.rightArea{
-	width:50%;
-	height:100%;
-	float:left;
-	border-style:solid;
+.helpInnerBox .helpItem {
+    display: flex;
+	font-size: 32px;
+	color: white;
+	/* align-items: center; */
+	justify-content: space-around;
+	padding: 0% 10%;
 }
-
+.helpInnerBox .helpItem a{
+    text-decoration: none;
+    color:white
+}
 </style>
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-	crossorigin="anonymous"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<title>숙소 등록 상태</title>
-</head>
-<body>
-	<div class="container-fluid">
-		<div class="leftArea">
-			<div class="leftAreaMessage">
-				<p>숙소 정보를 등록해주세요</p>
-			</div>
-			<div class="rightArea">
-				<p>영역확인</p>
+<div class="container-fluid">
+	<section>
+		<div class="todayBox">
+			<div class="todayInnerbox">
+				<div class="todayTitle">
+					<p>투데이</p>
+					<c:choose>
+						<c:when test="${lodgingRegistering ne null }">
+							<span><a href="/lodgingRegister"><button class="enrollButton">숙소 등록완료하기</button></a></span>
+						</c:when>
+						<c:otherwise>
+							<span><a href="/lodgingRegister"><button class="enrollButton">새 숙소 등록하기</button></a></span>
+						</c:otherwise>
+					</c:choose>
+
+				</div>
+				<div class="todayNotice">${loginedUser.name }님 지금 바로 에어비앤비의 호스트가 되어 보세요!</div>
 			</div>
 		</div>
-		<div>
-			<p></p>
+
+		<div class="reservationWrapperBox">
+			<div class="reservationAlarmBox"></div>
+			<div class="reservationAlarmText">
+				<p>예약</p>
+				<p>게스트가 숙소를 예약하면 여기에 표시됩니다.</p>
+			</div>
 		</div>
-	</div>
-	<script>
+		<div class="helpBox">
+			<div class="helpInnerBox">
+                <div style="padding-top:30px;">
+                    <div class="helpItem" style="justify-content:left">
+                        <p>호스팅 관련 팁과 업데이트</p>
+                    </div>
+                    <div class="helpItem">
+                        <a href="https://www.airbnb.co.kr/resources/hosting-homes/a/how-you-get-paid-for-hosting-20">
+                            <div style="padding-right:20px;">
+                                <img class="_1cb9q3xq" style="object-fit:cover;width:300px;" aria-hidden="true" alt="thumbnail card" src="https://a0.muscache.com/im/pictures/fff5a5e8-3ab3-4970-a5fc-c51e301a9acb.jpg?im_w=720" data-original-uri="https://a0.muscache.com/pictures/fff5a5e8-3ab3-4970-a5fc-c51e301a9acb.jpg">
+                                <div style="font-size:20px; padding-top:20px; background-color:#212120;padding-bottom:20px; color:white">호스팅 대금을 수령하는 방법</div>
+                            </div>
+                        </a>
+                        <a href="https://www.airbnb.co.kr/resources/hosting-homes/a/sprucing-up-your-listing-description-13">
+                        <div style="padding-right:20px;">
+                            <img class="_1cb9q3xq" style="object-fit:cover;width:300px;" aria-hidden="true" alt="thumbnail card" src="https://a0.muscache.com/im/pictures/451f156e-cc93-41be-ad1f-569c3bb350ca.jpg?im_w=720" data-original-uri="https://a0.muscache.com/pictures/451f156e-cc93-41be-ad1f-569c3bb350ca.jpg">
+                            <div style="font-size:20px; padding-top:20px; background-color:#212120;padding-bottom:20px; color:white">멋진 숙소 설명 작성하기</div>
+                        </div>
+                        </a>
+                            <a href="https://www.airbnb.co.kr/resources/hosting-homes/a/understanding-calendar-and-booking-settings-16">
+                            <div style="padding-right:20px;">	
+                                <img class="_1cb9q3xq" style="object-fit:cover;width:300px;" aria-hidden="true" alt="thumbnail card" src="https://a0.muscache.com/im/pictures/57d04174-24ab-4a42-a1d7-989d5b1dda47.jpg?im_w=720" data-original-uri="https://a0.muscache.com/pictures/57d04174-24ab-4a42-a1d7-989d5b1dda47.jpg">
+                                <div style="font-size:20px; padding-top:20px; background-color:#212120;padding-bottom:20px; color:white">달력 및 예약 설정 알아보기</div>
+                            </div>
+                        </a>
+                            <a href="https://www.airbnb.co.kr/resources/hosting-homes/a/create-a-guidebook-to-share-your-local-tips-23">
+                            <div style="padding-right:20px;">	
+                                <img class="_1cb9q3xq" style="object-fit:cover;width:300px;"  aria-hidden="true" alt="thumbnail card" src="https://a0.muscache.com/im/pictures/c8c24577-9079-4af8-b64b-200feb855d33.jpg?im_w=720" data-original-uri="https://a0.muscache.com/pictures/c8c24577-9079-4af8-b64b-200feb855d33.jpg">
+                                <div style="font-size:20px; padding-top:20px; background-color:#212120;padding-bottom:20px; color:white">요약 책장전략수립</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>    
+			</div>
+		</div>
+	</section>
+</div>
+
+<script>
+	/* hostHeader JS */
+	
+	const toggleBtn = document.querySelector(".navbar_toggleBtn");
+	const menu = document.querySelector('.navbar_menu');
+	const icons = document.querySelector('.navbar_icons');
+
+	toggleBtn.addEventListener('click', function() {
+		menu.classList.toggle('active');
+		icons.classList.toggle('active');
+	});
+	
+	$(".enrollButton").click(function(){
+		/* 재로그인하기 전까지 조건안먹음 => maybe 세션에 올라가있는 아이디와 동기화 안된 것 같은데? */
+		if('${loginedUser.isHost}'=='N'){
+			var isHost='Y'
+			$.ajax({
+				url:"/hosting"
+				,type:"post"
+				,data:{"isHost":isHost}
+				,success:function(){	//전달받은 값이 true 등 json형태가 아닐경우 data: json 쓰지 말것(절대 안됨)
+					alert("호스트가 되신걸 축하합니다!")
+				}
+				,error:function(){
+					alert("접속실패")
+				}
+			})
+		}
+	})
 		
-	</script>
-</body>
-</html> --%>
+</script>
+

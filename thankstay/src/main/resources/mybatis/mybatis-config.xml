@@ -7,9 +7,6 @@
 		<setting name="jdbcTypeForNull" value="NULL"/>
 		<!-- mybatis 실행로그를 log4j2 라이브러리를 이용해서 출력하게 함 -->
 		<setting name="logImpl" value="LOG4J2"/>
-		<setting name="cacheEnabled" value="true"></setting>
-		<setting name="defaultExecutorType" value="REUSE"></setting>
-		
 	</settings>
 	
 </configuration>

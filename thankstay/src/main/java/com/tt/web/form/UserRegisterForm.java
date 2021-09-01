@@ -13,6 +13,7 @@ public class UserRegisterForm {
 
     private String name;
     private String birth;
+    private String phone;
     private String email;
     private String password;
 }

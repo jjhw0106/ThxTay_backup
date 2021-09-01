@@ -3,6 +3,8 @@
 	xmlns:xsi="w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="java.sun.com/xml/ns/javaee java.sun.com/xml/ns/javaee/web-app_3_0.xsd" 
 	version="3.0">
+
+	<absolute-ordering />
 	
 	<!-- 
 		루트 스프링 컨테이너 설정하기
@@ -72,6 +74,7 @@
 			<param-value>/WEB-INF/spring/context-web.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
+		<async-supported>true</async-supported>
 	</servlet>
 	
 	<servlet-mapping>
@@ -88,6 +91,8 @@
 			<include-prelude>/WEB-INF/views/common/tags.jsp</include-prelude>
 		</jsp-property-group>
 	</jsp-config>
+
+
 	
 	<!-- 
 		에러페이지 설정하기

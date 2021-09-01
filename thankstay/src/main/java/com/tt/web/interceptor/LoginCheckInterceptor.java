@@ -26,22 +26,22 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
-		HandlerMethod handlerMethod = (HandlerMethod) handler;
-		MethodParameter[] methodParameters = handlerMethod.getMethodParameters();
+//		HandlerMethod handlerMethod = (HandlerMethod) handler;
+//		MethodParameter[] methodParameters = handlerMethod.getMethodParameters();
+//		
+//		boolean hasLoginUserAnnotation = false;
+//		for (MethodParameter parameter : methodParameters) {
+//			if (parameter.getParameterAnnotation(LoginUser.class) != null) {
+//				hasLoginUserAnnotation = true;
+//				break;
+//			}
+//		}
 		
-		boolean hasLoginUserAnnotation = false;
-		for (MethodParameter parameter : methodParameters) {
-			if (parameter.getParameterAnnotation(LoginUser.class) != null) {
-				hasLoginUserAnnotation = true;
-				break;
-			}
-		}
-		
-		if (hasLoginUserAnnotation && SessionUtils.getAttribute("LOGINED_USER") == null) {
-			
-			response.sendRedirect("/spring-mvc/login?error=deny");	
-			return false;
-		}
+//		if (hasLoginUserAnnotation && SessionUtils.getAttribute("LOGINED_USER") == null) {
+//			
+//			response.sendRedirect("/spring-mvc/login?error=deny");	
+//			return false;
+//		}
 		
 		return true;
 	}

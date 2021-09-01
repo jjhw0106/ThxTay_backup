@@ -1,45 +1,151 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tt.Lodging.LodgingDao">
-	<!-- <select id="getLodingByStatus" parameterType="string"
-		resultType="com.tt.Lodging.LodgingVO">
-		SELECT
-		FROM
-		WHERE
-	</select> -->
-	<select id="getLodgingsByUserNo" parameterType="int" resultType="com.tt.Lodging.LodgingVO">
-		SELECT
-			lodging_no							no                
-			,user_no					        userNo            
-			,lodging_city				        city          
-			,lodging_post_no                    postNo
-			,lodging_address                    address        
-			,lodging_address_rest               addressRest    
-			,lodging_description                description	
-			,lodging_imm_approval               immApproval		
-			,lodging_max_guest                  maxGuest
-			,lodging_image                      image   
-			,lodging_name                       name          
-			,lodging_bedroom                    bedroom          
-			,lodging_bathroom                   bathroom           
-			,lodging_singlebed                  singlebed          
-			,lodging_doublebed                  doublebed        
-			,lodging_view_count                 viewcount         
-			,lodging_review_count               reviewCount         
-			,lodging_review_average             reviewAverage       
-			,lodging_cleanness                  cleanness      
-			,lodging_communication              communication
-			,lodging_check_in                   checkIn     
-			,lodging_accuracy                   accuracy  
-			,lodging_location                   location       
-			,lodging_value                      value       
-			,lodging_status                     status       
-			,lodging_type_code                  lodgingTypeCode         
-			,lodging_lat                        latitude 
-			,lodging_lng                        longitude
-		FROM                            
+	<!-- <resultMap id="LodgingResultMap"
+		type="com.tt.Lodging.LodgingVO">
+		<id column="lodging_no" property="no"/>
+		<result column="user_no" property="userNo"/>
+		<result column="lodging_city" property="city"/>
+		<result column="lodging_post_no" property="postNo"/>
+		<result column="lodging_address" property="address"/>
+		<result column="lodging_address_rest" property="addressRest"/>
+		<result column="lodging_description" property="description"/>
+		<result column="lodging_imm_approval" property="immApproval"/>
+		<result column="lodging_max_guest" property="maxGuest"/>
+		<result column="lodging_image" property="image"/>
+		<result column="lodging_name" property="name"/>
+		<result column="lodging_bedroom" property="bedroom"/>
+		<result column="lodging_bathroom" property="bathroom"/>
+		<result column="lodging_singlebed" property="singlebed"/>
+		<result column="lodging_doublebed" property="doublebed"/>
+		<result column="lodging_view_count" property="viewCount"/>
+		<result column="lodging_review_count" property="reviewCount"/>
+		<result column="lodging_review_average" property="reviewAverage"/>
+		<result column="lodging_cleanness" property="cleanness"/>
+		<result column="lodging_communication" property="communication"/>
+		<result column="lodging_check_in" property="checkIn"/>
+		<result column="lodging_accuracy" property="accuracy"/>
+		<result column="lodging_location" property="location"/>
+		<result column="lodging_value" property="value"/>
+		<result column="lodging_status" property="status"/>
+		<result column="lodging_type_code" property="lodgingTypeCode"/>
+		<result column="lodging_lat" property="latitude"/>
+		<result column="lodging_lng" property="longitude"/>
+	</resultMap> -->
+	<insert id="insertLodging" parameterType="com.tt.Lodging.LodgingVO">
+		INSERT INTO
 			thxtay_lodging
+			(lodging_no
+			,user_no
+			,lodging_city
+			,lodging_post_no
+			,lodging_address
+			,lodging_address_rest
+			,lodging_description
+			,lodging_max_guest
+			,lodging_name
+			,lodging_bedroom
+			,lodging_bathroom
+			,lodging_singlebed
+			,lodging_doublebed
+			,lodging_view_count
+			,lodging_location
+			,lodging_value
+			,lodging_status
+			,lodging_type_code
+			,lodging_lat
+			,lodging_lng)
+		VALUES
+			(lodging_seq.nextval
+			,#{userNo}
+			,'서울'
+			,#{postNo}
+			,#{address}
+			,#{addressRest}
+			,#{description}
+			,#{maxGuest}
+			,#{name}
+			,#{bedroom}
+			,#{bathroom}
+			,#{singlebed}
+			,#{doublebed}
+			,#{viewCount}
+			,#{location}
+			,#{value}
+			,#{status}
+			,#{lodgingTypeCode}
+			,#{latitude}
+			,#{longitude})
+	</insert>
+    <select id="getLodgingsByUserNo" parameterType="int" resultType="com.tt.Lodging.LodgingVO">
+        SELECT
+             lodging_no                         no                
+            ,user_no                            userNo            
+            ,lodging_city                       city          
+            ,lodging_post_no                    postNo
+            ,lodging_address                    address        
+            ,lodging_address_rest               addressRest    
+            ,lodging_description                description    
+            ,lodging_imm_approval               immApproval        
+            ,lodging_max_guest                  maxGuest
+            ,lodging_image                      image   
+            ,lodging_name                       name          
+            ,lodging_bedroom                    bedroom          
+            ,lodging_bathroom                   bathroom           
+            ,lodging_singlebed                  singlebed          
+            ,lodging_doublebed                  doublebed        
+            ,lodging_view_count                 viewCount         
+            ,lodging_review_count               reviewCount         
+            ,lodging_review_average             reviewAverage       
+            ,lodging_cleanness                  cleanness      
+            ,lodging_communication              communication
+            ,lodging_check_in                   checkIn     
+            ,lodging_accuracy                   accuracy  
+            ,lodging_location                   location       
+            ,lodging_value                      value       
+            ,lodging_status                     status       
+            ,lodging_type_code                  lodgingTypeCode         
+            ,lodging_lat                        latitude 
+            ,lodging_lng                        longitude
+        FROM                            
+            thxtay_lodging
+        WHERE
+            user_no=#{value}
+    </select>
+    <update id="updateLodging" parameterType="com.tt.Lodging.LodgingVO">
+		UPDATE
+			thxtay_lodging
+		SET
+			 lodging_no            =#{no}
+			,user_no               =#{userNo}
+			,lodging_city          ='서울'
+			,lodging_post_no       =#{postNo}
+			,lodging_address       =#{address}
+			,lodging_address_rest  =#{addressRest}
+			,lodging_description   =#{description}
+			,lodging_max_guest     =#{maxGuest}
+			,lodging_name          =#{name}
+			,lodging_bedroom       =#{bedroom}
+			,lodging_bathroom      =#{bathroom}
+			,lodging_singlebed     =#{singlebed}
+			,lodging_doublebed     =#{doublebed}
+			,lodging_view_count    =#{viewCount}
+			,lodging_location      =#{location}
+			,lodging_value         =#{value}
+			,lodging_status        =#{status}
+			,lodging_type_code     =#{lodgingTypeCode}
+			,lodging_lat           =#{latitude}
+			,lodging_lng           =#{longitude}
 		WHERE
-			user_no=#{value}
-	</select>
+			lodging_no=#{no}
+    </update>
+    <update id="updateLodgingStatus" parameterType="int">
+		UPDATE
+			thxtay_lodging
+		SET
+			lodging_status        = 'LDG0303'
+		WHERE
+			lodging_no=#{value}
+    </update>
 </mapper>

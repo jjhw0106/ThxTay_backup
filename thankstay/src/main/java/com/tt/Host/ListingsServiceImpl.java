@@ -16,5 +16,5 @@ public class ListingsServiceImpl implements ListingsService{
 	public List<LodgingVO> getMyLodgings(int userNo) {
 		return listingsDao.getMyLodgingsByUserNo(userNo);
 	}
-	
+
 }

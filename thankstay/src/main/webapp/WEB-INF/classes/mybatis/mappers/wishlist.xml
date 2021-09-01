@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!-- 
+	com.sample.dao.UserDao 매퍼인터에시으세 대한 매퍼   파일(SQL이 정의된 파일) 정의
+-->
+<mapper namespace="com.tt.Wishlist.WishlistDao">
+	<insert id="insertWishList">
+		insert into thxtay_wishlist(wishlist_no, user_no, wishlist_name)
+		values (user_seq.nextval, #{userNo}, #{listName})
+	</insert>
+	<delete id="deleteWishList" parameterType="int">
+		delete from thxtay_wishlist
+		where wishlist_no = #{value}
+	</delete>
+	<select id="getWishListByUserNo" parameterType="int" resultType="com.tt.Wishlist.WishlistVO">
+		select 	wishlist_no			no
+				, user_no			userNo
+				, wishlist_name		name
+		from thxtay_wishlist
+		where user_no = #{value}
+	</select>
+	<select id="getZzimedLodgingsByWishListNo" parameterType="int" resultType="com.tt.Explore.LodgingListVO">
+		select lodging_no no, 
+				user_no userNo,
+				lodging_city city,
+				lodging_post_no postNo,
+				lodging_address address,
+				lodging_imm_approval approval,
+				lodging_max_guest maxGuest,
+				lodging_image image,
+				lodging_name name,
+				lodging_bedroom bedroom,
+				lodging_singlebed singleBed,
+				lodging_doublebed doubleBed,
+				lodging_view_count viewCount,
+				lodging_review_count reviewCount,
+				lodging_review_average reviewAverage,
+				lodging_status status,
+				lodging_type_code typeCode,
+				lodging_lng longitude,
+				lodging_lat latitude,
+				lodging_fee lodgingFee,
+				cleaning_fee cleaningFee,
+				amenity amenityList,
+				wishlist isWishListed
+		from thxtay_lodging A, thxtay_wish_zzim B
+		where B.lodging_no = A.lodging_no;
+		and wishlist_no = #{value}
+	</select>
+	<insert id="addLodgingByWishListNo">
+		insert into thxtay_wish_zzim(wishlist_no, lodging_no)
+		values (#{listNo}, #{lodgingNo})
+	</insert>
+	<delete id="removeLodgingFromWishList" parameterType="int">
+		delete from thxtay_wish_zzim
+		where lodging_no = #{value}
+	</delete>
+</mapper>

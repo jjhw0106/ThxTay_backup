@@ -1,17 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<!-- 
-	com.sample.dao.UserDao 매퍼인터에시으세 대한 매퍼   파일(SQL이 정의된 파일) 정의
--->
 <mapper namespace="com.tt.User.UserDao">
+	
+	<!-- jhw 테스트용 추가 -->
+	<select id="getUserByNo" parameterType="int" resultType="com.tt.User.UserVO">
+		SELECT
+			user_no             as no,
+            user_password       as password,
+            user_email          as email,
+            user_birth          as birth,
+            user_phone          as phone,
+            user_picture        as picture,
+            user_email_check    as emailCheck,
+            user_name           as name,
+            user_info           as info,
+            user_ishost         as isHost,
+            user_isadmin        as isAdmin,
+            user_deleted        as deleted,
+            user_created_date   as createdDate,
+            user_updated_date   as updatedDate
+		FROM
+            thxtay_user
+        WHERE
+            user_no = #{value}
+		
+	</select>
 
+    <select id="getUserByName" parameterType="string" resultType="com.tt.User.UserVO">
+        SELECT
+            user_no             as no,
+            user_password       as password,
+            user_email          as email,
+            TO_CHAR(user_birth, 'YYYY-MM-DD')          as birth,
+            user_phone          as phone,
+            user_picture        as picture,
+            user_email_check    as emailCheck,
+            user_name           as name,
+            user_info           as info,
+            user_ishost         as isHost,
+            user_isadmin        as isAdmin,
+            user_deleted        as deleted,
+            user_created_date   as createdDate,
+            user_updated_date   as updatedDate
+        FROM
+            thxtay_user
+        WHERE
+            user_no = #{value}
+
+    </select>
+	
     <select id="getUserByEmail" parameterType="string" resultType="com.tt.User.UserVO">
         SELECT
             user_no             as no,
             user_password       as password,
             user_email          as email,
-            user_birth          as birth,
+            TO_CHAR(user_birth, 'YYYY-MM-DD')          as birth,
             user_phone          as phone,
             user_picture        as picture,
             user_email_check    as emailCheck,
@@ -28,10 +72,77 @@
             user_email = #{value}
     </select>
 
+    <select id="getHostByEmail" parameterType="string" resultType="com.tt.User.UserVO">
+        SELECT
+            user_no             as no,
+            user_password       as password,
+            user_email          as email,
+            TO_CHAR(user_birth, 'YYYY-MM-DD')          as birth,
+            user_phone          as phone,
+            user_picture        as picture,
+            user_email_check    as emailCheck,
+            user_name           as name,
+            user_info           as info,
+            user_ishost         as isHost,
+            user_isadmin        as isAdmin,
+            user_deleted        as deleted,
+            user_created_date   as createdDate,
+            user_updated_date   as updatedDate
+        FROM
+            thxtay_user
+        WHERE
+            user_ishost = 'Y'
+        AND
+            user_email = #{value}
+    </select>
+
     <insert id="insertUser" parameterType="com.tt.User.UserVO">
         INSERT INTO thxtay_user
-        (user_no, user_password, user_name, user_email, user_birth)
+        (user_no, user_password, user_name, user_phone, user_email, user_birth)
         VALUES
-        (user_seq.nextval, #{password}, #{name}, #{email}, TO_DATE(#{birth},'YYYY-MM-DD'))
+        (user_seq.nextval, #{password}, #{name}, #{phone}, #{email}, TO_DATE(#{birth},'YYYY-MM-DD'))
     </insert>
+
+    <insert id="insertKakao" parameterType="com.tt.User.UserVO">
+        INSERT INTO thxtay_user
+        (user_no, user_picture, user_name, user_phone, user_email, user_birth)
+        VALUES
+        (user_seq.nextval, #{picture}, #{name}, '010-1234-5678', #{email}, TO_DATE(#{birth},'YYYY-MM-DD'))
+    </insert>
+
+    <update id="updateProfile" parameterType="com.tt.User.UserVO">
+        UPDATE
+            thxtay_user
+        SET
+            user_picture = #{picture}
+        WHERE
+            user_email = #{email}
+    </update>
+
+    <update id="updateWithdrawal" parameterType="int">
+        UPDATE
+            thxtay_user
+        SET
+            user_deleted = 'Y'
+        WHERE
+            user_no = #{value}
+    </update>
+
+    <insert id="insertDeletedUser" parameterType="com.tt.User.DeletedUserVO">
+        INSERT INTO thxtay_deleted_user
+            (user_no, user_password, user_email, user_birth, user_phone, user_picture, user_email_check,
+             user_name, user_info, user_ishost, user_isadmin, user_deleted, user_created_date, user_updated_date)
+        VALUES
+            (#{no}, #{password}, #{email}, TO_DATE(SUBSTR(#{birth}, 1, 10), 'YYYY-MM-DD'), #{phone}, #{picture}, #{emailCheck}, #{name}, #{info},
+             #{isHost}, #{isAdmin}, #{deleted}, #{createdDate}, #{updatedDate})
+    </insert>
+    
+    <update id="updateUserIsHost" parameterType="int">
+        UPDATE
+            thxtay_user
+        SET
+            user_isHost = 'Y'
+        WHERE
+            user_no = #{value}
+    </update>
 </mapper>

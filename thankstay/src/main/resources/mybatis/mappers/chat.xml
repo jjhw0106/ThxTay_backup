@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tt.Chat.ChatDao">
+
+    <resultMap type="java.util.HashMap" id="chatJoinMap">
+        <result property="no" column="CR_NO"/>
+        <result property="userName" column="USER_NAME"/>
+        <result property="userEmail" column="USER_EMAIL"/>
+        <result property="hostName" column="HOST_NAME"/>
+        <result property="hostEmail" column="HOST_EMAIL"/>
+    </resultMap>
+
+    <insert id="insertMsg" parameterType="com.tt.Chat.ChatMessageVO">
+        INSERT INTO thxtay_chat_message
+        VALUES (CM_SEQ.nextval, #{crNo}, #{contents}, #{createdTime})
+    </insert>
+
+    <select id="allMsg" parameterType="int" resultType="com.tt.Chat.ChatMessageVO">
+        select
+            CM_NO           as no,
+            CR_NO           as crNo,
+            CM_CONTENTS     as contents,
+            CM_CREATED_TIME as createdTime
+        from
+            THXTAY_CHAT_MESSAGE
+        where
+            CR_NO = #{crNo}
+    </select>
+
+    <insert id="chatroomCreate" parameterType="com.tt.Chat.ChatRoomVO">
+        insert into
+            THXTAY_CHAT_ROOM(CR_NO, USER_NO, CR_HOST_NO)
+        values (#{no}, #{userNo}, #{hostNo})
+    </insert>
+
+    <delete id="chatroomDelete" parameterType="int">
+        delete from THXTAY_CHAT_ROOM where CR_NO = #{value}
+    </delete>
+
+    <select id="chatroomDetail" parameterType="com.tt.Chat.ChatRoomVO" resultMap="chatJoinMap">
+        SELECT A.CR_NO, B.USER_NAME, B.USER_EMAIL, C.USER_NAME as HOST_NAME, C.USER_EMAIL as HOST_EMAIL
+        FROM (SELECT *
+              FROM thxtay_chat_room
+              WHERE CR_NO = #{no}) A, thxtay_user B, (SELECT *
+                                                  FROM thxtay_user
+                                                  WHERE user_ishost = 'Y') C
+        WHERE A.user_no = B.user_no
+          AND A.cr_host_no = C.user_no;
+    </select>
+</mapper>

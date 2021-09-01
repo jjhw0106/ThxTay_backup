@@ -3,6 +3,7 @@ package com.tt.User;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
@@ -12,7 +13,6 @@ import java.util.Date;
 public class UserVO {
 
     private int no;                 // 유저번호
-    private String id;              // 아이디
     private String password;        // 비밀번호
     private String email;           // 이메일
     private String birth;           // 생년월일

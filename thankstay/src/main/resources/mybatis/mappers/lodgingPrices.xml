@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tt.Host.PriceDao">
+	<insert id="insertLodgingPrice" parameterType="com.tt.Host.PriceDto">
+		INSERT INTO THXTAY_PRICE
+		(PRICE_NO, LODGING_NO, PRICE_LODGING_FEE, PRICE_CLEANING_FEE, PRICE_OPEN_DATE)
+		VALUES
+		(PRICE_SEQ.NEXTVAL,
+		#{lodgingNo},
+		#{lodgingFee},
+		#{cleaningFee},
+		to_date(#{openDate},'yy/MM/dd'))
+	</insert>
+</mapper>

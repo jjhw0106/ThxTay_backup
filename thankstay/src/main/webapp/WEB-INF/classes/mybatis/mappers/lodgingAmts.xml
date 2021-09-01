@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tt.Lodging.LodgingAmtDao">
+	<insert id="insertAmt" parameterType="com.tt.Lodging.AmenityListVO">
+		INSERT INTO 
+			THXTAY_AMENITYLIST(amenity_code, lodging_no, amenity_no)
+		VALUES
+			(#{code}, #{lodgingNo}, amenity_seq.nextval)
+	</insert>
+</mapper>

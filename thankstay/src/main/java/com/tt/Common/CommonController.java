@@ -2,29 +2,55 @@ package com.tt.Common;
 
 import org.springframework.stereotype.Controller;
 
+import java.util.Date;
+import java.util.List;
 
+import org.apache.commons.math3.stat.descriptive.summary.Product;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.tt.exception.LoginException;
 import com.tt.exception.UserRegisterException;
+import com.tt.Explore.ExploreFilterDao;
+import com.tt.Explore.ExploreFilterService;
+import com.tt.Explore.LodgingListVO;
+import com.tt.Explore.SearchFilterVO;
+import com.tt.Host.HostMainController;
+import com.tt.Lodging.LodgingVO;
 import com.tt.User.UserService;
 import com.tt.User.UserVO;
+import com.tt.web.annotation.LoginUser;
 import com.tt.web.form.UserRegisterForm;
 import com.tt.web.utils.SessionUtils;
+import com.tt.web.view.JsonView;
 
 /*
  * @Controller
  * 		- 클라이언트의 요청을 처리하는 컨트롤러 클래스임을 나타낸다.
  * 		- <context:component-scan /> 태그를 xml에 설정했을 때 자동으로 스프링 컨테이너의 빈으로 등록된다.
  */
+
+
 @Controller
 public class CommonController {
+	private static Logger logger = LogManager.getLogger(CommonController.class);
+	@Autowired JsonView jsonView;
+	@Autowired ExploreFilterService exploreFilterService;
+	@Autowired UserService userService;
+	
+	
+	
 	/*
 	 * @RequestMapping, @GetMapping, @PostMapping, @PutMapping, @DeleteMapping
 	 * 		- 요청URL와 요청핸들러 메소드를 매핑시킨다.
@@ -56,6 +82,66 @@ public class CommonController {
 	public String home() {
 		return "index";	// /WEB-INF/views/home.jsp 경로에서 "/WEB-INF/views/"와 ".jsp"를 제외한 이름
 	}
+	
+	@GetMapping(path = {"/explore/list"})
+	public String Search(String location, Model model) {
+		model.addAttribute("location", location);
+		return "explore/list";
+	}	
+
+
+	@GetMapping(path = {"/explore/list/json"})
+	@ResponseBody
+	public List<LodgingListVO> SearchJson(
+			@RequestParam(value="location", required=false, defaultValue="") String location, 
+			@RequestParam(value="east", required=false, defaultValue="-1") double east, 
+			@RequestParam(value="west", required=false, defaultValue="-1") double west, 
+			@RequestParam(value="south", required=false, defaultValue="-1") double south, 
+			@RequestParam(value="north", required=false, defaultValue="-1") double north, 
+			@RequestParam(value="checkIn", required=false)@DateTimeFormat(pattern = "yyyy-MM-dd") Date checkIn, 
+			@RequestParam(value="checkOut", required=false)@DateTimeFormat(pattern = "yyyy-MM-dd") Date checkOut,
+			@RequestParam(value="guests", required=false, defaultValue="2") int guests,
+			@RequestParam(value="status", required=false, defaultValue="LDG0303") String status,	
+			//defaultValue로 하드코딩...? 아니면 위에 상수 정의? property에서 특정 값만 미리 설정해놓는 방법도 있다.
+			//시간날 때 해결하기
+			@RequestParam(value="type", required=false) String type,
+			@RequestParam(value="immApproval", required=false, defaultValue="N") String immApproval, //boolean으로 어떻게? parseBoolean?
+			@RequestParam(value="amenity", required=false, defaultValue="") List<String> amenity,
+			@LoginUser UserVO user
+			){
+		
+		int userNo = 0;
+		if(user != null) {
+			userNo = user.getNo();
+		}
+		
+		SearchFilterVO searchFilter = new SearchFilterVO(location, east, west, south, north, checkIn, checkOut, guests, status, type, immApproval, amenity, userNo);
+		List<LodgingListVO> lodgings = exploreFilterService.getLodgingListBySearchFilter(searchFilter);
+		
+		return lodgings;
+	}
+	
+//	@GetMapping(path = {"/explore/list"})
+//	public String MakeList(
+			//	@RequestParam(value="lat", required=false) double latitude,
+			//	@RequestParam(value="lng", required=false) double longitude,
+		//	Model model) {
+		//	SearchFilterVO searchFilter = new SearchFilterVO(location, checkIn, checkOut, guests);
+		//	List<LodgingVO> lodgings = exploreFilterService.getLodgingsBySearchFilter(searchFilter);
+		
+		//	model.addAttribute("lodgings", lodgings);
+		//	return "explore/list";
+//	}
+	
+//	@GetMapping(path = "/explore")
+//	public String list(Model model) {
+//		List<LodgingVO> lodgings = listingsService.getMyLodgings(userNo);
+//		model.addAttribute("lodgings",lodgings);
+//		String requirements;
+//		System.out.println(requirements);
+//		return "list";
+//	}
+	
 	/*
 	 * 요청핸들러 메소드의 반환값
 	 * 		- String

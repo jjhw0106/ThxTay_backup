@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tt.Host.HostAnalysisDao">
+	<select id="getEarningsByHashMap" parameterType="map" resultType="com.tt.Host.EarningsVO">
+		select nvl(sum(decode(booking_status, 'confirmedIncome', booking_amount, 0)),0) confirmedIncome,
+        	   nvl(sum(decode(booking_status, 'expectingIncome', booking_amount, 0)),0) expectingIncome,
+        	   nvl(sum(decode(booking_status, 'canceledIncome', booking_amount, 0)),0) canceledIncome,
+        	   nvl(sum(decode(booking_status, 'confirmedIncome', booking_total_cleaning_fee, 0)), 0) confirmedIncomeCleaningFee,
+               nvl(sum(decode(booking_status, 'expectingIncome', booking_total_cleaning_fee, 0)), 0) expectingIncomeCleaningFee
+		from (select 
+     		 decode(B.booking_status, 'BKG0101', 'expectingIncome', 
+     		   						  'BKG0102', 'canceledIncome',
+                                 	  'BKG0103', 'expectingIncome', 
+                                	  'BKG0104', 'confirmedIncome') booking_status, booking_amount, booking_total_cleaning_fee
+   		from 
+      		thxtay_booking B, thxtay_lodging L
+		where 
+			B.lodging_no = L.lodging_no 
+			and L.user_no = #{userNo}
+			and B.booking_status != 'BKG0102'
+			and B.booking_check_out &gt;= #{startDate} 				
+			and B.booking_check_out &lt; add_months(#{startDate},1)
+		)
+	</select>
+	
+	<select id="getEarningsChartbyHashMap" parameterType="map" resultType="com.tt.Host.EarningsVO">
+		select Y.months, 
+				nvl(sum(decode(booking_status, 'confirmedInput', booking_amount, 0)),0) confirmedIncome,
+		        nvl(sum(decode(booking_status, 'expectingInput', booking_amount, 0)),0) expectingIncome
+		from (select 
+		             decode(B.booking_status, 'BKG0101', 'expectingInput', 
+		                                      'BKG0103', 'expectingInput', 
+		                                      'BKG0104', 'confirmedInput') booking_status, booking_amount,
+		             to_number(to_char(B.booking_check_out,'MM')) months
+		        from 
+		            thxtay_booking B, thxtay_lodging L
+		        where 
+		            B.lodging_no = L.lodging_no 
+		            and L.user_no = #{userNo}
+		            and B.booking_status != 'BKG0102'
+		            and B.booking_check_out &gt;= #{startDate} 				
+		            and B.booking_check_out  &lt; add_months(#{startDate},1)) X, (SELECT LEVEL MONTHS
+		                                                          FROM DUAL
+		                                                          CONNECT BY LEVEL &lt;= 12) Y                                        
+		WHERE X.MONTHS(+) = Y.MONTHS
+		GROUP BY Y.MONTHS
+		ORDER BY Y.MONTHS
+	</select>
+
+	<select id="getAllBookingsByUserNo" parameterType="int" resultType="com.tt.Lodging.BookingVO">
+		select booking_check_out
+		from thxtay_booking B, thxtay_lodging L
+		where b.lodging_no = L.lodging_no 
+		and L.user_no = #{userNo}
+	</select>
+	
+	<select id="getAllUsers" parameterType="int" resultType="com.tt.User.UserVO">
+		select user_no
+		from thxtay_user
+	</select>
+
+</mapper>

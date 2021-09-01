@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tt.Host.ListingsDao">
+	<select id="getMyLodgingsByUserNo" parameterType="int" resultType="com.tt.Lodging.LodgingVO">
+		select
+			lodging_name name,
+			lodging_status status,
+			lodging_address address,
+			lodging_imm_approval,
+			lodging_bedroom bedroom,
+			lodging_singlebed singlebed,
+			lodging_doublebed doublebed,
+			lodging_bathroom bathroom,
+			lodging_review_average reviewAverage
+		from 
+			Thxtay_lodging A, Thxtay_user B
+		where A.user_no = B.user_no 
+        and A.user_no = #{value}
+	</select>
+</mapper>

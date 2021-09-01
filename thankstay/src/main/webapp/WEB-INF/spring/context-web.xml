@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:websocket="http://www.springframework.org/schema/websocket"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
 		http://www.springframework.org/schema/mvc
-        http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd  http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context-3.2.xsd ">
+        http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.2.xsd
+        http://www.springframework.org/schema/websocket
+        http://www.springframework.org/schema/websocket/spring-websocket.xsd
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 
 	<!-- 
 		spring mvc관련 어노테이션을 분석하고, 적절한 처리를 담당하는 클래스들을 스프링 컨테이너의 빈으로 등록시킨다.
@@ -108,18 +114,49 @@
 					RedirectView인 경우 클라이언트에게 재요청 URL이 응답으로 전달됨
 					JstlView인 경우 지정된 JSP페이지로 내부이동해서 JSP를 실행함 -> HTML 컨텐츠가 응답으로 전달됨
 	 -->
-	<bean id="viewResolver"
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/" />
 		<property name="suffix" value=".jsp" />
 		<property name="order"  value="2" />
 	</bean>
+
+
+	<!-- 첨부파일 업로드 -->
+	<!-- MultipartResolver 설정 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="600000000" />
+		<property name="maxInMemorySize" value="100000000" />
+		<property name="defaultEncoding" value="UTF-8" />
+	</bean>
+
+	<bean id="echoHandler" class="com.tt.Chat.WebSocketHandler" />
+
+	<websocket:handlers>
+		<websocket:mapping path="/echo" handler="echoHandler"/>
+		<!-- WebSocket Handshake : 웹소켓 핸들러 클래스(echoHandler)가 호출되기전에 HttpSession에 접속하여  -->
+		<!-- '이용자 아이디를 추출하는 기능' 등을 인터셉터가 수행하도록 설정 -->
+		<websocket:handshake-interceptors>
+			<bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
+		</websocket:handshake-interceptors>
+		<websocket:sockjs />
+	</websocket:handlers>
+
 
 	<!--
 		com.sample.web.controller 패키지의 클래스들을 자동으로 스프링 컨테이너의 빈으로 등록시킨다.
 		주로 @Controller, @RestController 어노테이션이 지정되어 있는 컨트롤러 클래스가 스프링의 빈으로 자동 등록된다.
 	 -->
 	<context:component-scan base-package="com.tt.Common">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+	</context:component-scan>
+	
+	<context:component-scan base-package="com.tt.Explore">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+	</context:component-scan>
+	
+	<context:component-scan base-package="com.tt.Wishlist">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
 	</context:component-scan>
@@ -143,6 +180,14 @@
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
 	</context:component-scan>
+
+	<context:component-scan base-package="com.tt.Chat">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+	</context:component-scan>
+	
+	<context:component-scan base-package="com.tt.web.view" />
+
 </beans>
 
 

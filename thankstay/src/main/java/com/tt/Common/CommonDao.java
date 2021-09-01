@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.tt.vo.CommonCodeVO;
-
 @Mapper
 public interface CommonDao {
 	/* jhw 추가 */
@@ -19,7 +17,8 @@ public interface CommonDao {
 	 * @return
 	 */
 	String getCommonCodeByCodeContent(String codeContent);
-
+	
+	String getParentCodeByContent(String codeContent);
 	/**
 	 * 공통코드로 시작하는 공통코드VO 객체 리스트 획득
 	 * 
@@ -29,8 +28,9 @@ public interface CommonDao {
 	
 	List<CommonCodeVO> getCommonCodeVosByParentCode(String commonCode);
 	
-	List<String> getAllCommonCodes();
-	
-	List<String> getAllParentCodes();
+	/**
+	 * 복수의 CodeContents에 해당하는 복수의 CmCodes 반환
+	 */
+	List<String> getCmCodesByContents(List<String> contents);
 	/* jhw 추가 */
 }

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tt.Admin.AdminDao">
+
+	<resultMap id="userMap" type="java.util.HashMap">
+		<result column="RNUM" property="rnum"/>
+		<result column="USER_NO" property="no"/>
+		<result column="USER_EMAIL" property="email"/>
+		<result column="USER_NAME" property="name"/>
+		<result column="USER_BIRTH" property="birth"/>
+		<result column="USER_PHONE" property="phone"/>
+		<result column="USER_ISHOST" property="isHost"/>
+	</resultMap>
+
+	<resultMap id="deletedUserMap" type="java.util.HashMap">
+		<result column="RNUM" property="rnum"/>
+		<result column="USER_NO" property="no"/>
+		<result column="USER_EMAIL" property="email"/>
+		<result column="USER_NAME" property="name"/>
+		<result column="USER_BIRTH" property="birth"/>
+		<result column="USER_PHONE" property="phone"/>
+		<result column="USER_ISHOST" property="isHost"/>
+	</resultMap>
+
+	<select id="getUsers" resultMap="userMap">
+		SELECT
+		        RNUM,
+		        USER_NO 					as no,
+				USER_EMAIL 					as email,
+				USER_NAME 					as name,
+		TO_CHAR(USER_BIRTH, 'YYYY-MM-DD') 	as birth,
+				USER_PHONE 					as phone,
+				USER_ISHOST 				as isHost
+		FROM (SELECT
+					 ROW_NUMBER() OVER (ORDER BY USER_NO ASC) as RNUM,
+					 USER_NO, USER_EMAIL, USER_NAME, USER_BIRTH, USER_PHONE, USER_ISHOST
+			  FROM
+			  		 (SELECT
+			  		 		 *
+			  	   	  FROM
+			  	   	  		 THXTAY_USER
+					  WHERE USER_DELETED = 'N'))
+ 	</select>
+
+	<select id="getUserByNo" parameterType="int" resultType="com.tt.User.UserVO">
+		SELECT
+		        USER_NO 							as no,
+				USER_NAME 							as name,
+		TO_CHAR(USER_BIRTH, 'YYYY-MM-DD') 			as birth,
+				USER_EMAIL 							as email,
+				USER_INFO							as info,
+				USER_ISHOST							as isHost,
+				USER_ISADMIN						as isAdmin,
+				USER_DELETED						as deleted,
+		TO_DATE(USER_CREATED_DATE, 'YYYY-MM-DD')	as createdDate,
+		TO_DATE(USER_UPDATED_DATE, 'YYYY-MM-DD')	as updatedDate,
+				USER_PICTURE						as picture,
+				USER_PHONE 							as phone,
+				USER_EMAIL_CHECK 					as emailCheck
+		FROM
+				THXTAY_USER
+		WHERE
+				USER_NO = #{value}
+	</select>
+
+	<select id="getDeletedUsers" resultMap="deletedUserMap">
+		SELECT
+				RNUM,
+				USER_NO 					as no,
+				USER_EMAIL 					as email,
+				USER_NAME 					as name,
+		TO_CHAR(USER_BIRTH, 'YYYY-MM-DD') 	as birth,
+				USER_PHONE 					as phone,
+				USER_ISHOST 				as isHost
+		FROM (SELECT
+					ROW_NUMBER() OVER (ORDER BY USER_NO ASC) as RNUM,
+					USER_NO, USER_EMAIL, USER_NAME, USER_BIRTH, USER_PHONE, USER_ISHOST
+			  FROM
+					(SELECT	* FROM THXTAY_DELETED_USER))
+	</select>
+	<select id="getCommonCode" resultType="com.tt.Common.CommonCodeVO">
+		SELECT
+				PARENTCODE 					as parentCode,
+				COMMONCODE 					as commonCode,
+				CODECONTENT 				as codeContent,
+				IMPORTANCE 					as importance,
+				CREATEDDATE 				as createdDate,
+				UPDATEDDATE 				as updatedDate
+		FROM
+				thxtay_common_code
+		ORDER BY COMMONCODE ASC
+	</select>
+	<select id="getLodging" resultType="com.tt.Lodging.LodgingVO">
+		SELECT
+				lodging_no                            no
+				,user_no                            userNo
+				,lodging_city                        city
+				,lodging_post_no                    postNo
+				,lodging_address                    address
+				,lodging_address_rest               addressRest
+				,lodging_description                description
+				,lodging_imm_approval               immApproval
+				,lodging_max_guest                  maxGuest
+				,lodging_image                      image
+				,lodging_name                       name
+				,lodging_bedroom                    bedroom
+				,lodging_bathroom                   bathroom
+				,lodging_singlebed                  singlebed
+				,lodging_doublebed                  doublebed
+				,lodging_view_count                 viewCount
+				,lodging_review_count               reviewCount
+				,lodging_review_average             reviewAverage
+				,lodging_cleanness                  cleanness
+				,lodging_communication              communication
+				,lodging_check_in                   checkIn
+				,lodging_accuracy                   accuracy
+				,lodging_location                   location
+				,lodging_value                      value
+				,lodging_status                     status
+				,lodging_type_code                  lodgingTypeCode
+				,lodging_lat                        latitude
+				,lodging_lng                        longitude
+		FROM
+			thxtay_lodging
+	</select>
+
+
+	<select id="getParentCode" resultType="com.tt.Common.CommonCodeVO">
+		SELECT DISTINCT
+				PARENTCODE 					as parentCode
+		FROM
+				thxtay_common_code
+		ORDER BY parentcode asc
+	</select>
+
+	<insert id="insertCommonCode" parameterType="com.tt.Common.CommonCodeVO">
+		INSERT INTO thxtay_common_code
+		(parentcode, commoncode, codecontent, importance)
+		VALUES
+			(#{parentCode}, #{commonCode}, #{codeContent}, #{importance})
+	</insert>
+
+	<delete id="deleteCommonCode" parameterType="com.tt.Common.CommonCodeVO">
+		delete from thxtay_common_code where COMMONCODE = #{commonCode}
+	</delete>
+</mapper>

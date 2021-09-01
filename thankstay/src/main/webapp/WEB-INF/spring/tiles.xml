@@ -9,15 +9,42 @@
         <put-attribute name="content" value="" />
     </definition>
 
-    <definition name="Mypage/NoTiles/*" extends="Empty">
-        <put-attribute name="content" value="" />
+    <definition name="host/registerLodging/*" extends="Empty">
+        <put-attribute name="content" value="/WEB-INF/views/host/registerLodging/{1}.jsp" />
+    </definition>
+
+    <definition name="admin/Info/*" extends="Empty">
+        <put-attribute name="content" value="/WEB-INF/views/admin/Info/{1}.jsp" />
+    </definition>
+
+    <definition name="chat/room/*" extends="Empty">
+        <put-attribute name="content" value="/WEB-INF/views/chat/room/{1}.jsp" />
     </definition>
 
 
+    <!-- Admin 쪽 -->
+    <definition name="Admin" template="/WEB-INF/tiles/adminLayouts.jsp">
+        <put-attribute name="Asidebar" value="/WEB-INF/views/common/adminSidebar.jsp" />
+        <put-attribute name="Aindex" value="" />
+    </definition>
+
+    <definition name="admin/*" extends="Admin">
+        <put-attribute name="Aindex" value="/WEB-INF/views/admin/{1}.jsp" />
+    </definition>
+
+    <!-- HostMain 쪽 -->
+    <definition name="Host" template="/WEB-INF/tiles/hostLayout.jsp">
+        <put-attribute name="HostHeader" value="/WEB-INF/views/common/hostHeader.jsp" />
+        <put-attribute name="HostBody" value="" />
+        <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+    </definition>
+
+    <definition name="host/*" extends="Host">
+        <put-attribute name="HostBody" value="/WEB-INF/views/host/{1}.jsp" />
+    </definition>
+
     <!-- Main 쪽 -->
     <definition name="Main" template="/WEB-INF/tiles/layouts.jsp">
-   <!-- <put-attribute name="css" value="/WEB-INF/tiles/css.jsp" />
-        <put-attribute name="js" value="/WEB-INF/tiles/js.jsp" /> -->
         <put-attribute name="header" value="/WEB-INF/views/common/nav.jsp" />
         <put-attribute name="body" value="" />
         <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
@@ -25,6 +52,18 @@
 
     <definition name="*" extends="Main">
         <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+    </definition>
+    
+    <definition name="explore/*" extends="Main">
+        <put-attribute name="body" value="/WEB-INF/views/explore/{1}.jsp" />
+    </definition>
+    
+    <definition name="lodging/*" extends="Main">
+        <put-attribute name="body" value="/WEB-INF/views/lodging/{1}.jsp" />
+    </definition>
+
+    <definition name="chatting/*" extends="Main">
+        <put-attribute name="body" value="/WEB-INF/views/chatting/{1}.jsp" />
     </definition>
 
 </tiles-definitions>
