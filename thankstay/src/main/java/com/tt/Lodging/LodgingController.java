@@ -72,8 +72,7 @@ public class LodgingController {
 	}
 
 	@PostMapping("/lodgingDetailAdd")
-	public String lodgingDetailAddForm(@LoginUser UserVO user, Model model, LodgingRegisterForm lrForm,
-			@RequestParam("ldgType") String type) { // ,
+	public String lodgingDetailAddForm(@LoginUser UserVO user, Model model, LodgingRegisterForm lrForm, @RequestParam("ldgType") String type) { 
 		logger.info("lodgingDetailAddForm 실행");
 
 		String typeCmCode = commonService.getCommonCodeByContent(type);
@@ -149,7 +148,7 @@ public class LodgingController {
 	}
 
 	@GetMapping("/lodgingImgAdd")
-	public String lodgingImgAddForm(@LoginUser UserVO user, Model model, @RequestParam("selected-items") List<String> amenityList, @RequestParam("no") int ldgNo) {
+	public String lodgingImgAddForm(@LoginUser UserVO user, Model model, @RequestParam(name="selected-items", required=false) List<String> amenityList, @RequestParam("no") int ldgNo) {
 		logger.info("lodgingImgAddForm 실행");
 		lodgingService.saveProgress(user, amenityList, ldgNo);
 		
@@ -173,7 +172,7 @@ public class LodgingController {
 	@ResponseBody
 	public Map<String, Object> lodgingImgAddForm(@RequestParam(name = "picture", required = false) MultipartFile upfile,
 			@LoginUser UserVO user, MultipartHttpServletRequest req, Model model) throws IOException {
-
+		
 		LodgingVO lodgingRegistering = lodgingService.getLodgingRegistering(user.getNo());
 		int lodgingNo = lodgingRegistering.getNo();
 
@@ -185,6 +184,7 @@ public class LodgingController {
 		fileItem.setFilename(filename);
 		FileCopyUtils.copy(upfile.getInputStream(), new FileOutputStream(new File(uploadPath + "resources/images/lodgings", filename)));
 
+		//경로가 존재하지 않을 경우 경로 생성
 		File fileDir = new File(uploadPath + "resources/images/lodgings");
 		if (!fileDir.exists()) {
 			fileDir.mkdirs();
@@ -214,6 +214,8 @@ public class LodgingController {
 		System.out.println("pictures=" + pictures);
 		return retVal;
 	}
+	
+	
 
 	@GetMapping("/lodgingPriceAdd")
 	public String lodgingPriceAddForm(@LoginUser UserVO user, Model model) {
@@ -227,6 +229,12 @@ public class LodgingController {
 	}
 
 	//중간저장  "/saveTemp" 하나로 보내고 싶은데 how?
+	/**
+	 * 숙소 detail 저장
+	 * @param user
+	 * @param lrForm
+	 * @return
+	 */
 	@PostMapping("/saveTemp")
 	public String saveTemp(@LoginUser UserVO user, LodgingRegisterForm lrForm) {
 		logger.info("saveTemp 실행");
@@ -236,8 +244,15 @@ public class LodgingController {
 		return "redirect:lodgingRegister";
 	}
 
-	@PostMapping("/saveTemp3")
-	public String saveTemp3(@LoginUser UserVO user, @RequestParam("selected-items") List<String> amenityList, @RequestParam("no") int ldgNo) {
+	/**
+	 * 숙소 편의시설 저장
+	 * @param user
+	 * @param amenityList
+	 * @param ldgNo
+	 * @return
+	 */
+	@PostMapping("/saveTemp2")
+	public String saveTemp3(@LoginUser UserVO user, @RequestParam(name="selected-items", required = false) List<String> amenityList, @RequestParam("no") int ldgNo) {
 		
 		System.out.println("유저번호:" + user.getNo());
 		System.out.println("등록중숙소번호:" + ldgNo);
@@ -249,6 +264,14 @@ public class LodgingController {
 		return "redirect:lodgingRegister";
 	}
 
+	/**
+	 * 숙소 가격 저장
+	 * @param user
+	 * @param prForm
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
 	@PostMapping("/saveTemp4")
 	public String lodgingPriceAddForm(@LoginUser UserVO user, PriceRegisterForm prForm, @RequestParam("startDate") Date startDate, @RequestParam("endDate") Date endDate) {
 		logger.info("lodgingPriceAddForm 실행");

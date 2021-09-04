@@ -347,7 +347,7 @@ $("#prev").click(function() {
 })
 
 $("#next").click(function() {
-	location.href="lodgingRegister"
+	location.href="lodgingPriceAdd"
 })
 
 $("input:checked").each(function(i){

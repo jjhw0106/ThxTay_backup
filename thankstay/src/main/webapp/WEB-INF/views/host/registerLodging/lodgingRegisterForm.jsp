@@ -140,30 +140,6 @@ body {
 							</button>
 						</a>
 						</div>
-						<div class="chooseStatus">
-						<a href="/lodgingAmenityAdd">
-							<button class="chooseStatusBtn" type="button" role="radio"
-								aria-checked="false">
-								<p id="lodgingRegistering">숙소 편의시설 등록하기</p>
-							</button>
-						</a>
-						</div>
-						<div class="chooseStatus">
-						<a href="/lodgingImgAdd">
-							<button class="chooseStatusBtn" type="button" role="radio"
-								aria-checked="false">
-								<p id="lodgingRegistering">숙소 사진 업로드하기</p>
-							</button>
-						</a>
-						</div>
-						<div class="chooseStatus">
-						<a href="/lodgingPriceAdd">
-							<button class="chooseStatusBtn" type="button" role="radio"
-								aria-checked="false">
-								<p id="lodgingRegistering">숙박비 등록하기</p>
-							</button>
-						</a>
-						</div>
 					</c:if>
 				</div>
 				<h2 style="font-weight: bold">숙소 등록 시작하기</h2>

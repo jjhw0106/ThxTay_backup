@@ -49,9 +49,9 @@ public class LodgingServiceImpl implements LodgingService {
 	public LodgingVO getLodgingRegistering(int userNo) {
 		List<LodgingVO> lodgingList=lodgingDao.getLodgingsByUserNo(userNo);
 		for (LodgingVO lodgingVO : lodgingList) {
-			String statusCode= commonDao.getParentCodeByContent(CommonConstant.LDG_REGISTERING);	//"등록중" 있던 자리
+			String statusCode= commonDao.getCommonCodeByCodeContent(CommonConstant.LDG_REGISTERING);	//"등록중" 있던 자리
 			
-			if(lodgingVO.getStatus().contains(statusCode)) {
+			if(lodgingVO.getStatus().equals(statusCode)) {
 				return lodgingVO;
 			}
 		}
@@ -87,6 +87,7 @@ public class LodgingServiceImpl implements LodgingService {
 					lodging.setMaxGuest(maxGuest);
 					updateLodging(lodging);
 					System.out.println("업데이트 실행");
+					return;
 				}
 
 				// 등록상태가 null일 경우 등록상태:등록중 으로 초기화 먼저 실행 후 숙소등록 작업 실행
@@ -106,13 +107,15 @@ public class LodgingServiceImpl implements LodgingService {
 		AmenityListVO amenity = new AmenityListVO();
 
 		// for문 돌면서 ldgNo 추가, amtCode추가.
-		for (int i = 0; i < amenityList.size(); i++) {
-		// for문 마다 db접속됨 -> Q1 해결 시 코드 수정 필요
-			String amtCode = commonService.getCommonCodeByContent(amenityList.get(i));
-			amenity.setCode(amtCode);
-			amenity.setLodgingNo(ldgNo);
-			System.out.println("저장될편의시설:" + amenity);
-			amtService.registerAmt(amenity); // 편의시설테이블 제약조건 수정필요, amenity_no추가해야함
+		if(amenityList!=null) {
+			for (int i = 0; i < amenityList.size(); i++) {
+				// for문 마다 db접속됨 -> Q1 해결 시 코드 수정 필요
+				String amtCode = commonService.getCommonCodeByContent(amenityList.get(i));
+				amenity.setCode(amtCode);
+				amenity.setLodgingNo(ldgNo);
+				System.out.println("저장될편의시설:" + amenity);
+				amtService.registerAmt(amenity); // 편의시설테이블 제약조건 수정필요, amenity_no추가해야함
+			}
 		}
 	}
 

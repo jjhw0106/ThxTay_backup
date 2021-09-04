@@ -129,7 +129,6 @@ body {
 							<span><a href="/lodgingRegister"><button class="enrollButton">새 숙소 등록하기</button></a></span>
 						</c:otherwise>
 					</c:choose>
-
 				</div>
 				<div class="todayNotice">${loginedUser.name }님 지금 바로 에어비앤비의 호스트가 되어 보세요!</div>
 			</div>
